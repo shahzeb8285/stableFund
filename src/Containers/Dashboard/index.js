@@ -11,20 +11,18 @@ import { Icon } from 'react-native-eva-icons'
 import { View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Svg, { Path } from 'react-native-svg'
+import LinearGradient from 'react-native-linear-gradient'
 
-import { SafeAreaView } from 'react-native-safe-area-context'
-import DiscoverScreen from './Fragments/Discover'
-import WalletScreen from '../Wallet'
-import SettingScreen from './Fragments/Setting'
-import AssetTracker from './Fragments/AssetTracker'
-import Header from './Components/Header'
-import MyBalance from './Components/MyBalance'
+import WalletFragment from './Fragments/WalletFragment'
+
 import HomeFragment from './Fragments/Home'
-import TokensFragment from './Fragments/Home/Fragment/TokensFragment'
+import StakeFragment from './Fragments/StakeFragment'
+import ExchangeFragment from "./Fragments/ExchangeFragment"
+import BuyFragment from "./Fragments/BuyFragment";
 import { useEffect } from 'react'
 import { fetchCoinDataAsync } from '@/Store/Slices/coins/coins'
 import { useDispatch } from 'react-redux'
-
+import { AtomindText } from '@/Components'
 
 // const HomeIcon = props => {
 //   return <Icon {...props} fill={props.style.tintColor} name="home-outline" />
@@ -65,6 +63,35 @@ const StarIcon = props => {
   )
 }
 
+const WalletIcon = props => {
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        d="M19.083 7.373H4.917A2.92 2.92 0 0 0 2 10.289v8.333a2.92 2.92 0 0 0 2.917 2.917h14.166A2.92 2.92 0 0 0 22 18.622V10.29a2.92 2.92 0 0 0-2.917-2.916Zm2.084 11.25a2.086 2.086 0 0 1-2.084 2.083H4.917a2.086 2.086 0 0 1-2.084-2.084V10.29c0-1.148.935-2.083 2.084-2.083h14.166c1.15 0 2.084.935 2.084 2.083v8.333Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M18.25 13.206c-.69 0-1.25.56-1.25 1.25 0 .689.56 1.25 1.25 1.25s1.25-.561 1.25-1.25c0-.69-.56-1.25-1.25-1.25Zm0 1.667a.417.417 0 1 1 .001-.835.417.417 0 0 1-.001.835Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M21.584 11.54H18.25a2.92 2.92 0 0 0-2.916 2.916 2.92 2.92 0 0 0 2.916 2.916h3.334c.23 0 .416-.186.416-.416v-5a.417.417 0 0 0-.416-.417Zm-.417 5H18.25a2.086 2.086 0 0 1-2.083-2.084c0-1.149.934-2.083 2.083-2.083h2.917v4.166ZM19.039 7.602l-1.764-3.528a2.893 2.893 0 0 0-1.728-1.476 2.901 2.901 0 0 0-2.264.213L4.72 7.422a.416.416 0 1 0 .395.734l8.566-4.61c.5-.27 1.076-.324 1.616-.153.541.171.98.546 1.234 1.054l1.764 3.529a.417.417 0 0 0 .745-.374Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M17.367 4.26a.418.418 0 0 0-.565-.17l-6.19 3.333a.417.417 0 1 0 .396.734l6.19-3.334a.416.416 0 0 0 .17-.564ZM9.5 4.873H6.583A4.589 4.589 0 0 0 2 9.456v.833a.417.417 0 0 0 .833 0v-.833a3.755 3.755 0 0 1 3.75-3.75H9.5a.417.417 0 0 0 0-.833ZM17.417 4.873a.417.417 0 0 0 0 .833 3.755 3.755 0 0 1 3.75 3.75v.833a.417.417 0 0 0 .833 0v-.833a4.589 4.589 0 0 0-4.583-4.583Z"
+        // fill="#717171"
+      />
+    </Svg>
+  )
+}
+
 const BoxIcon = props => {
   return (
     <Svg
@@ -100,39 +127,117 @@ const SettingIcon = props => {
     </Svg>
   )
 }
+const StakeIcon = props => {
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        d="M8.004 10.9h2.398a.6.6 0 0 0 0-1.2H9.203v-.6a.6.6 0 1 0-1.199 0v.6a1.799 1.799 0 0 0 0 3.597h1.199a.6.6 0 0 1 0 1.199H6.805a.6.6 0 0 0 0 1.199h1.199v.6a.6.6 0 1 0 1.199 0v-.6a1.798 1.798 0 1 0 0-3.597H8.004a.6.6 0 1 1 0-1.199Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M18.495 3.705h-6.594a1.499 1.499 0 0 0-1.5 1.499V6.36a6.594 6.594 0 1 0 .486 12.517c.6.558.444.414 7.608.414a1.499 1.499 0 0 0 1.499-1.499c0-2.032.066-2.206-.306-2.697.384-.51.306-.756.306-2.698a1.516 1.516 0 0 0-.306-.9c.196-.259.303-.574.306-.899 0-2.032.066-2.206-.306-2.697.384-.51.306-.756.306-2.698a1.505 1.505 0 0 0-1.499-1.499Zm-6.894 1.499a.306.306 0 0 1 .3-.3h6.594c.396 0 .3.318.3 2.098a.306.306 0 0 1-.3.3c-7.356 0-5.671.156-6.894-.473V5.204ZM18.795 8.8v1.798a.306.306 0 0 1-.3.3H14.94a6.594 6.594 0 0 0-1.253-2.398h4.796a.305.305 0 0 1 .312.3Zm0 3.597v1.798a.305.305 0 0 1-.3.3H14.94a6.29 6.29 0 0 0 .258-2.398h3.297a.305.305 0 0 1 .3.3Zm-15.587.3a5.395 5.395 0 1 1 10.79 0 5.395 5.395 0 0 1-10.79 0Zm15.587 5.095a.306.306 0 0 1-.3.3H12.38a6.667 6.667 0 0 0 2.092-2.398h4.023a.305.305 0 0 1 .3.3v1.798Z"
+        // fill="#717171"
+      />
+    </Svg>
+  )
+}
 
-const Tab = ({ isActive, onClick, icon }) => {
+const ExchangeIcon = props => {
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        d="M7.852 10.444a5.707 5.707 0 0 0-5.704 5.704 5.707 5.707 0 0 0 5.704 5.704 5.707 5.707 0 0 0 5.704-5.704 5.707 5.707 0 0 0-5.704-5.704Zm0 1.037a4.67 4.67 0 0 1 4.667 4.667 4.67 4.67 0 0 1-4.667 4.667 4.67 4.67 0 0 1-4.667-4.667 4.67 4.67 0 0 1 4.667-4.666Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M16.148 2.148a5.707 5.707 0 0 0-5.704 5.704 5.707 5.707 0 0 0 5.704 5.704 5.707 5.707 0 0 0 5.704-5.704 5.707 5.707 0 0 0-5.704-5.704Zm0 1.037a4.67 4.67 0 0 1 4.667 4.667 4.67 4.67 0 0 1-4.667 4.667 4.67 4.67 0 0 1-4.667-4.667 4.67 4.67 0 0 1 4.667-4.667Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M6.296 14.593v3.11h-.518a.519.519 0 0 0 0 1.038h1.555v.518a.519.519 0 0 0 1.037 0v-.518h.519a1.556 1.556 0 0 0 1.16-2.593 1.556 1.556 0 0 0-1.16-2.593h-.518v-.518a.519.519 0 0 0-1.038 0v.519H5.778a.519.519 0 0 0 0 1.037h.518Zm2.593 2.074H7.333v1.037H8.89a.519.519 0 0 0 0-1.037Zm0-2.074H7.333v1.037H8.89a.519.519 0 0 0 0-1.037Z"
+        // stroke="#717171"
+        strokeWidth={0.7}
+      />
+      <Path
+        d="M5.26 7.637v-1.86a.519.519 0 0 0-1.038 0V8.89c0 .286.232.518.519.518h3.11a.519.519 0 0 0 0-1.037H5.993l5.338-5.337a6.815 6.815 0 0 1 9.637 9.638.519.519 0 0 0 .734.733A7.851 7.851 0 1 0 10.597 2.3L5.259 7.637ZM18.741 16.363v1.86a.519.519 0 0 0 1.037 0V15.11a.519.519 0 0 0-.518-.518h-3.112a.519.519 0 0 0 0 1.037h1.86l-5.337 5.337a6.815 6.815 0 0 1-9.638-9.637.519.519 0 0 0-.733-.734A7.851 7.851 0 1 0 13.404 21.7l5.337-5.337Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M15.63 5.259h-.52a1.555 1.555 0 0 0-1.554 1.555v.002A1.555 1.555 0 0 0 15.11 8.37h2.076a.518.518 0 0 1 .518.518v.002a.518.518 0 0 1-.518.517H15.11a.517.517 0 0 1-.517-.517.519.519 0 0 0-1.037 0 1.555 1.555 0 0 0 1.554 1.554h.52v.519a.519.519 0 0 0 1.037 0v-.519h.52A1.555 1.555 0 0 0 18.74 8.89v-.002a1.555 1.555 0 0 0-1.555-1.555H15.11a.517.517 0 0 1-.517-.517v-.002a.518.518 0 0 1 .517-.518h2.076a.518.518 0 0 1 .518.518.519.519 0 0 0 1.037 0 1.555 1.555 0 0 0-1.555-1.555h-.52V4.74a.519.519 0 0 0-1.036 0v.519Z"
+        // stroke="#717171"
+        strokeWidth={0.7}
+      />
+    </Svg>
+  )
+}
+
+const BuyIcon = props => {
+  return (
+    <Svg
+      width={24}
+      height={24}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <Path
+        d="M22 12a10 10 0 1 0-10 10 10.011 10.011 0 0 0 10-10Zm-10 8.462A8.461 8.461 0 1 1 20.462 12 8.47 8.47 0 0 1 12 20.462Z"
+        // fill="#717171"
+      />
+      <Path
+        d="M13.649 9.582a.769.769 0 1 0 1.538 0 3.19 3.19 0 0 0-2.418-3.089v-.647a.77.77 0 0 0-1.538 0v.647a3.182 3.182 0 0 0 0 6.179v3.196a1.643 1.643 0 0 1-.88-1.45.77.77 0 1 0-1.538 0 3.19 3.19 0 0 0 2.418 3.089v.647a.77.77 0 0 0 1.538 0v-.647a3.182 3.182 0 0 0 0-6.179V8.132a1.643 1.643 0 0 1 .88 1.45Zm-2.418 1.45a1.633 1.633 0 0 1 0-2.897v2.898Zm2.418 3.386a1.644 1.644 0 0 1-.88 1.45v-2.901a1.643 1.643 0 0 1 .88 1.45Z"
+        // fill="#717171"
+      />
+    </Svg>
+  )
+}
+const Tab = ({ isActive, onClick, icon, title }) => {
   const theme = useTheme()
-
-  const Icon = () => {
-    return icon
-  }
-  // const Icon = icon
 
   return (
     <TouchableOpacity
       style={{
-        alignContent: 'center',
-        justifyContent: 'center',
+        // paddingTop:10,
+        // alignContent: 'center',
+        // justifyContent: 'center',
         alignItems: 'center',
       }}
       onPress={() => {
         onClick()
       }}
     >
-      <Icon fill={isActive ? 'red' : 'black'} />
-
-      <View
+      <LinearGradient
+        colors={['#6B56DF', '#BA4BFB']}
         style={{
-          backgroundColor: theme['color-primary-500'],
-          borderRadius: 10,
-
-          alignSelf: 'center',
-          marginTop: 5,
-          height: isActive ? 5 : 0,
-          width: isActive ? 5 : 0,
+          backgroundColor: 'red',
+          height: 4,
+          borderBottomLeftRadius: 4,
+          borderBottomRightRadius: 4,
+          opacity: isActive ? 1 : 0,
+          width: '40%',
+          marginHorizontal: 5,
+          marginBottom: 5,
         }}
       />
+      {icon}
+
+      <AtomindText
+        style={{ color: isActive ? theme['color-primary-500'] : '#00000099' }}
+      >
+        {title}
+      </AtomindText>
     </TouchableOpacity>
   )
 }
@@ -145,8 +250,8 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
       style={{
         // flex: 1,
         backgroundColor: '#fff',
-        paddingBottom:20,
-        paddingTop:15,
+        paddingBottom: 20,
+        // paddingTop:15,
         flexDirection: 'row',
         // alignContent: 'center',
         // alignItems: 'center',
@@ -156,6 +261,7 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
     >
       <View style={{ flex: 1 }}>
         <Tab
+          title="Home"
           icon={
             <HomeIcon
               fill={activeTab == 0 ? theme['color-primary-500'] : '#00000099'}
@@ -175,8 +281,9 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
       </View>
       <View style={{ flex: 1 }}>
         <Tab
+          title="Wallet"
           icon={
-            <StarIcon
+            <WalletIcon
               fill={activeTab == 1 ? theme['color-primary-500'] : '#00000099'}
               preserveAspectRatio="xMidYMin"
               style={{
@@ -194,8 +301,9 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
       </View>
       <View style={{ flex: 1 }}>
         <Tab
+          title="Stake"
           icon={
-            <BoxIcon
+            <StakeIcon
               fill={activeTab == 2 ? theme['color-primary-500'] : '#00000099'}
               preserveAspectRatio="xMidYMin"
               style={{
@@ -214,8 +322,9 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
 
       <View style={{ flex: 1 }}>
         <Tab
+          title="Exchange"
           icon={
-            <SettingIcon
+            <ExchangeIcon
               fill={activeTab == 3 ? theme['color-primary-500'] : '#00000099'}
               preserveAspectRatio="xMidYMin"
               style={{
@@ -231,54 +340,68 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
           }}
         />
       </View>
+
+      <View style={{ flex: 1 }}>
+        <Tab
+          title="Buy"
+          icon={
+            <BuyIcon
+              fill={activeTab == 4 ? theme['color-primary-500'] : '#00000099'}
+              preserveAspectRatio="xMidYMin"
+              style={{
+                alignContent: 'center',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            />
+          }
+          isActive={activeTab == 4}
+          onClick={() => {
+            onTabClick(4)
+          }}
+        />
+      </View>
     </View>
   )
 }
 
-const DashboardScreen = (props) => {
+const DashboardScreen = props => {
   const [selectedIndex, setSelectedIndex] = React.useState(0)
-  const shouldLoadComponent = index => index === selectedIndex;
   const dispatch = useDispatch()
 
-
-
-
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(fetchCoinDataAsync())
-
-  },[])
+  }, [])
   return (
     <View
-      style={{        backgroundColor: '#fff',
+      style={{
+        backgroundColor: '#fff',
 
-        // flex: 1,
+        flex: 1,
         height: '100%',
         width: '100%',
       }}
     >
       <View style={{ flex: 1, height: '100%', width: '100%' }}>
-        
+
         <ViewPager
+        style={{ flex: 1, height: '100%', width: '100%' }}
           selectedIndex={selectedIndex}
           onSelect={index => setSelectedIndex(index)}
         >
-          <HomeFragment  navigation={props.navigation}/>
-          <AssetTracker />
-
-          <DiscoverScreen />
-          <SettingScreen />
-
-
-
+          <HomeFragment navigation={props.navigation} />
+          <WalletFragment navigation={props.navigation}/>
+          <StakeFragment />
+          <ExchangeFragment />
+          <BuyFragment />
         </ViewPager>
       </View>
       <NavigationBar
-      
-          activeTab={selectedIndex}
-          onTabClick={i => {
-            setSelectedIndex(i)
-          }}
-        />
+        activeTab={selectedIndex}
+        onTabClick={i => {
+          setSelectedIndex(i)
+        }}
+      />
     </View>
   )
 }

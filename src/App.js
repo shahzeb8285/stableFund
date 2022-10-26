@@ -7,6 +7,7 @@ import ApplicationNavigator from '@/Navigators/Application'
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 import { default as theme } from './Theme/theme.json'; // <-- Import app theme
+import Toast from 'react-native-toast-message';
 
 
 import './Translations'
@@ -28,6 +29,8 @@ const App = () => (
 
     </ApplicationProvider>
     </PersistGate>
+    <Toast />
+
   </Provider>
 )
 

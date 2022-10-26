@@ -8,7 +8,6 @@ export const getCryptoPrices = async(ids)=>{
     
     const resp = await axios.get(url)
 
-
     return resp.data
 
 }

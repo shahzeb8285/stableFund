@@ -1,8 +1,17 @@
-import { defaultCoins, nativeCoins } from '@/Config/Coins/coins'
+import defaultCoins from '@/Config/Coins/coins'
 import { getCryptoPrices } from '@/Utils/Coingecko'
-
+import axios from 'axios'
 export const getNativeCoinPrice = async coin => {}
 
+const loadPriceHistory = async id => {
+  const URL = `https://api.binance.com/api/v3/klines?symbol=${id.toUpperCase()}USDT&interval=1d&limit=50`
+
+  // return
+  const resp = await axios.get(URL)
+
+  const data = resp.data.map(interval => parseFloat(interval[4]))
+  return data
+}
 export const fetchCoinData = async () => {
   const ids = []
 
@@ -15,22 +24,22 @@ export const fetchCoinData = async () => {
   const nativeCoinsPrices = await getCryptoPrices(ids)
   for (let defaultCoin of defaultCoins) {
     const data = nativeCoinsPrices[defaultCoin.id]
+    const priceHistory = await loadPriceHistory(defaultCoin.symbol)
     let price = null
-    let changeIn24Hours = null
+    let change24Hours = null
     if (data) {
       price = data.usd
-      changeIn24Hours = data.usd_24h_change.toFixed(2)
+      change24Hours = data.usd_24h_change.toFixed(2)
     }
 
     const coin = {
       ...defaultCoin,
       price,
-      changeIn24Hours,
+      change24Hours,
+      priceHistory,
     }
     defaultCoinData.push(coin)
   }
 
-  const nativeCoinsData = [...nativeCoins]
-
-  return [...defaultCoinData, ...nativeCoinsData]
+  return [...defaultCoinData]
 }

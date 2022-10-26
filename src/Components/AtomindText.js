@@ -4,7 +4,10 @@ import { View, Image,Text } from 'react-native'
 
 const AtomindText = props => {
   return (
-    <Text style={[{ fontFamily: 'DMSans-Regular',
+    <Text style={[{
+      fontFamily: 'DMSans-Regular',
+     
+      alignItems: "center",
     // backgroundColor:"red" 
     },{...props.style}]}>
       {props.children}

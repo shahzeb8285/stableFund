@@ -5,29 +5,45 @@ import { useTheme, Text } from '@ui-kitten/components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Icon } from 'react-native-eva-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import AtomindText from '../AtomindText'
+import LinearGradient from 'react-native-linear-gradient'
 
 const IconInput = props => {
   const theme = useTheme()
   const [isFocussed, setFocussed] = useState(false)
   return (
-    <View
+    <View style={{marginVertical:5}}>
+      {props.title?
+      <AtomindText style={{fontWeight:"600",fontSize:16,marginBottom:5}}>
+        {props.title}
+        </AtomindText> : null}
+      
+        <LinearGradient
+        colors={['#6B56DF', '#BA4BFB']}
+        style={{
+          padding: 1,
+          borderRadius: 15,
+          // paddingVertical: 14,
+        }}
+     >
+       <View
       style={[
         {
           flexDirection: 'row',
-          marginVertical: 8,
-          borderRadius: 10,
-          borderWidth: isFocussed ? 1.3 : 0,
-          // backgroundColor: '#fff',
-          borderWidth: 1,
-          
           borderRadius: 15,
+
+          // marginVertical: 8,
+          // borderRadius: 10,
+          // borderWidth: isFocussed ? 1.3 : 0,
+          backgroundColor: '#fff',
+          
           paddingHorizontal: 20,
-          borderColor: "#d5d7d7",
           paddingVertical: 10,
           width: '100%',
           alignContent: 'center',
           alignItems: 'center',
         },
+        props.style?{...props.style}:{}
       ]}
     >
       {/* <Image
@@ -75,7 +91,9 @@ const IconInput = props => {
           />
         </TouchableOpacity>
       ) : null}
-    </View>
+        </View>
+        </LinearGradient>
+   </View>
   )
 }
 

@@ -29,4 +29,13 @@ export { default as EmailLogin } from './Auth/Login/EmailLogin'
 
 
 export { default as LoginVerifyOtp } from './Auth/Login/LoginVerifyOtp'
-export {default as MyProfile} from "./MyProfile/MyProfile"
+export { default as MyProfile } from "./MyProfile/MyProfile"
+
+
+
+export { default as OnBoard } from './PreBoard'
+export { default as MarketScreen } from './MarketScreen'
+export { default as BuyFragment } from "./Dashboard/Fragments/BuyFragment"
+export { default as ExchangeFragment } from "./Dashboard/Fragments/ExchangeFragment"
+export { default as SendCrypto } from "./Wallet/SendCrypto"
+export { default as ReceiveCrypto } from "./Wallet/ReceiveCrypto"

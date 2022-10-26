@@ -3,6 +3,6 @@ import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
 
-const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
+const AtomindShimmer = createShimmerPlaceholder(LinearGradient)
 
-export default ShimmerPlaceholder
+export default AtomindShimmer

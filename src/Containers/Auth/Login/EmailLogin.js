@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, Image, ImageBackground } from 'react-native'
 import {
   Button,
   Icon,
@@ -25,26 +25,22 @@ import CountryPicker from 'react-native-country-picker-modal'
 import EmailIcon from '@/Assets/SVG/EmailIcon'
 import PasswordIcon from '@/Assets/SVG/PasswordIcon'
 // import PasswordIcon from '@/Assets/SVG/PasswordIcon'
+import OnBoardBg from '@/Assets/Images/OnboardBG.png'
 
 const EmailLogin = ({ navigation }) => {
   const theme = useTheme()
 
-  const [isMobileSelected, setMobileSelected] = useState(true)
   return (
+
+    <ImageBackground source={OnBoardBg} style={{ flex: 1 }}>
+
     <SafeAreaView style={[styles.container]}>
       <ScrollView style={[styles.container]}>
         <View style={[styles.container, { marginTop: 25 }]}>
-          {/* <BackButton
-            onPress={() => {
-              navigation.goBack()
-            }}
-          /> */}
+          
 
           <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-            {/* <AtomindText style={{ fontWeight: '500', fontSize: 26 }}>
-              Sign In with E-Mail
-            </AtomindText> */}
-
+            
             <Image
               source={require('../../../Assets/Images/logo.png')}
               resizeMode="contain"
@@ -52,34 +48,32 @@ const EmailLogin = ({ navigation }) => {
                 height: 150,
                 width: 150,
                 marginTop: 20,
-                marginBottom: 50,
+                // marginBottom: 50,
                 alignContent: 'center',
                 justifyContent: 'center',
                 alignItems: 'center',
                 alignSelf: 'center',
               }}
-            />
-            {/* <AtomindText
-              style={{
-                alignSelf: 'flex-start',
-                fontWeight: '400',
-                color: '#00000099',
-                marginTop: 5,
-                marginBottom: 30,
-              }}
-            >
-              Normal Sign In with your E-Mail and Password.{' '}
-            </AtomindText> */}
+              />
+              
 
-            <IconInput
-              icon={<EmailIcon />}
+              <AtomindText style={{ fontSize: 25, fontWeight: "900", textAlign: 'center'}}>
+                Welcome Back!
+              </AtomindText>
+           
+
+              <IconInput
+                                title="Email"
+
+              // icon={<EmailIcon />}
               placeholder="Enter Email"
               textContentType={'emailAddress'}
             />
 
-            <IconInput
+              <IconInput
+                title="Password"
               textContentType="password"
-              icon={<PasswordIcon />}
+              // icon={<PasswordIcon />}
               // leftIcon={}
               placeholder="Enter Password"
             />
@@ -92,7 +86,9 @@ const EmailLogin = ({ navigation }) => {
               />
             </View>
 
-            <AtomindButton text="Sign In" />
+            <AtomindButton text="Login" onPress={() => {
+              navigation.navigate("Dashboard")
+            }} />
           </View>
         </View>
       </ScrollView>
@@ -120,20 +116,20 @@ const EmailLogin = ({ navigation }) => {
 
         <HyperLink
           text={'Sign up'}
-          point={'qwertyu'}
           onPress={() => {
-            console.log('13322')
-            navigation.navigate('ForgotPassword')
+            navigation.navigate('Register')
           }}
         />
       </View>
-    </SafeAreaView>
+      </SafeAreaView>
+      
+      </ImageBackground>
   )
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E8EEF2',
+    // backgroundColor: '#E8EEF2',
   },
   loginContainer: {
     // width: '100%',

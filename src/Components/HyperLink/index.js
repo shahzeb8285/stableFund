@@ -15,7 +15,6 @@ const HyperLink = props => {
   }, [style])
 
   const onClick = () => {
-    console.log('saasaa', props)
   }
   return (
     <TouchableOpacity

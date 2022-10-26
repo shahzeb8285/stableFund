@@ -31,12 +31,12 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
 
   return (
     <BaseScreen>
-      <BackButton
+      {/* <BackButton
         style={{}}
         onPress={() => {
           navigation.goBack()
         }}
-      />
+      /> */}
 
       <View
         style={{
@@ -45,6 +45,7 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
           textAlign: 'center',
           alignContent: 'center',
           alignItems: 'center',
+          marginTop:20,
           // justifyContent: 'center',
           // backgroundColor: 'blue',
           marginHorizontal: 25,

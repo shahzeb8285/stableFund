@@ -10,12 +10,12 @@ const SearchBox = ({ height, width, mode, onSearchQuery }) => {
   return (
     <View
       style={{
-        backgroundColor: '#F6F6F6',
+        backgroundColor: '#fff',
         flexDirection: 'row',
         marginVertical: 15,
         paddingHorizontal: 20,
         paddingVertical: 15,
-        borderRadius: 20,
+        borderRadius: 10,
       }}
     >
       <SearchIcon fill="#00000099" />

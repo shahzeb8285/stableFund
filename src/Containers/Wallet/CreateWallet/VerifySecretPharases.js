@@ -21,6 +21,7 @@ import {
   SeedPhraseViewer,
 } from '@/Components'
 import { useEffect } from 'react'
+import Header from '@/Components/Header'
 
 function shuffleSeeds(array) {
   return array
@@ -96,12 +97,7 @@ const VerifySecretPharases = ({ route, navigation }) => {
 
   return (
     <BaseScreen>
-      <BackButton
-        style={{}}
-        onPress={() => {
-          navigation.goBack()
-        }}
-      />
+    
 
       <ScrollView
         style={{
@@ -110,6 +106,10 @@ const VerifySecretPharases = ({ route, navigation }) => {
           //  backgroundColor:"red"
         }}
       >
+
+<Header text="Confirm Seed Phrase" onBack={() => {
+          navigation.goBack()
+     }} />
         <View
           style={{
             textAlign: 'center',
@@ -121,17 +121,7 @@ const VerifySecretPharases = ({ route, navigation }) => {
             height: '100%',
           }}
         >
-          <AtomindText
-            style={{
-              color: theme['color-primary-700'],
-              marginBottom: 10,
-              fontWeight: '700',
-              fontSize:28
-            }}
-          >
-            Confirm Seed Pharase
-          </AtomindText>
-
+        
           <AtomindText
             appearance="hint"
             style={{

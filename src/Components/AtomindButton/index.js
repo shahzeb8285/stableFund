@@ -1,23 +1,15 @@
 import React, { useEffect, useState } from 'react'
+import LinearGradient from 'react-native-linear-gradient'
 
 import { TouchableOpacity } from 'react-native'
 import { useTheme, Text } from '@ui-kitten/components'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Icon } from 'react-native-eva-icons'
 
-const BackButton = props => {
+const Button = props => {
   const theme = useTheme()
   const [styles, setStyles] = useState({})
 
-  const primaryButtonStyle = {
-    color: '#fff',
-    backgroundColor: theme['color-primary-default'],
-  }
-
-  const secondaryButtonStyle = {
-    color: theme['color-primary-500'],
-    backgroundColor: '#E8EEF2',
-  }
   useEffect(() => {
     if (props.style) {
       setStyles(props.style)
@@ -33,32 +25,34 @@ const BackButton = props => {
       style={[
         {
           marginVertical: 16,
-          borderRadius: 10,
-          // borderWidth: 1,
-          borderRadius: 15,
-          padding: 10,
-          paddingVertical: 14,
+
           width: '100%',
         },
-        props.secondary ? secondaryButtonStyle : primaryButtonStyle,
-       
-
       ]}
     >
-      <Text
+      <LinearGradient
+        colors={['#6B56DF', '#BA4BFB']}
         style={{
-          fontWeight: '500',
-          textAlign: 'center',
-          fontSize: 16,
-          color: props.secondary ? theme['color-primary-500'] : '#fff',
-
-          fontFamily: 'DMSans-Regular',
+          padding: 10,
+          borderRadius: 44,
+          paddingVertical: 14,
         }}
       >
-        {props.text}
-      </Text>
+        <Text
+          style={{
+            fontWeight: '500',
+            textAlign: 'center',
+            fontSize: 16,
+            color: props.secondary ? theme['color-primary-500'] : '#fff',
+
+            fontFamily: 'DMSans-Regular',
+          }}
+        >
+          {props.text}
+        </Text>
+      </LinearGradient>
     </TouchableOpacity>
   )
 }
 
-export default BackButton
+export default Button

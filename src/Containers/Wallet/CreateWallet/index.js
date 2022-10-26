@@ -47,12 +47,7 @@ const CreateWalletScreen = props => {
 
   return (
     <BaseScreen isWhiteBg>
-      <BackButton
-        style={{}}
-        onPress={() => {
-          props.navigation.goBack()
-        }}
-      />
+    
       <View
         style={{
           textAlign: 'center',

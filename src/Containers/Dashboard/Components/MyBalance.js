@@ -9,113 +9,105 @@ import {
   useTheme,
 } from '@ui-kitten/components'
 import { Icon } from 'react-native-eva-icons'
-import { View, Image } from 'react-native'
+import { View, Image, ImageBackground } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import Header from './Header'
+import LinearGradient from 'react-native-linear-gradient'
+import GradientImg from '@/Assets/Images/gradient.png'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useState } from 'react'
-import { AtomindText } from '@/Components'
+import { AtomindButton, AtomindText } from '@/Components'
+import { useNavigation } from '@react-navigation/native'
 
-const PortfolioReporter = props => {
+const PortfolioReporter = ({}) => {
   return (
     <View
       style={{
         alignSelf: 'baseline',
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#D6F188',
+        borderColor: 'green',
         padding: 5,
         marginVertical: 10,
         paddingHorizontal: 15,
       }}
     >
-      <AtomindText style={{ fontSize: 16, fontWeight: '500', color: '#D6F188' }}>
+      <AtomindText style={{ fontSize: 16, fontWeight: '500', color: 'green' }}>
         $54990,00 (3,18)%
       </AtomindText>
     </View>
   )
 }
 
-const MyBalance = props => {
+const MyBalance = ({ hideAvatar }) => {
   const theme = useTheme()
   const [hideBalance, setBalanceHide] = useState(true)
   const [balance, setBalance] = useState(100)
+  const navigation = useNavigation()
 
-  const getHiddenBalance = () => {
-    let hiddenBalance = ''
-    for (let i = 0; i < balance.toFixed(4).length; i++) {
-      hiddenBalance += '*'
-    }
-    return hiddenBalance
-  }
   return (
-    <View
+    <ImageBackground
+      resizeMode="stretch"
+      source={GradientImg}
       style={{
-        flexDirection: 'row',
-        backgroundColor: theme['color-primary-500'],
         marginTop: 25,
-        padding: 25,
-        borderRadius: 20,
+        padding: 30,
+        borderRadius: 30,
         minHeight: 50,
       }}
     >
+      {hideAvatar ? null : <Header />}
+
       <View style={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ marginLeft: 10, flex: 1, justifyContent: 'center' }}>
+        <View
+          style={{
+            marginLeft: 10,
+            flex: 1,
+            marginTop: 8,
+            justifyContent: 'center',
+          }}
+        >
           <AtomindText
             style={{
-              fontWeight: '400',
-              fontSize: 16,
-              color: '#FFFFFF99',
+              fontWeight: '600',
+              fontSize: 25,
+              color: '#000',
             }}
           >
-            My Balance
+            Total Assets
           </AtomindText>
           <AtomindText
             style={{
               fontWeight: '700',
-              fontSize: 26,
-              color: '#FFFFFF',
+              fontSize: 28,
+              // color: '#FFFFFF',
+              color: theme['color-primary-500'],
             }}
           >
-            {hideBalance ? getHiddenBalance() : `$${balance.toFixed(4)}`}
+            ${balance.toFixed(4)}
           </AtomindText>
 
           <PortfolioReporter />
         </View>
-
-        <TouchableOpacity
-          onPress={() => {
-            setBalanceHide(!hideBalance)
-          }}
-          style={{
-            // height:50,
-            // width:50,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 10,
-            borderWidth: 1,
-            borderColor: '#FFFFFF99',
-            padding: 10,
-            // height: 28,
-            padding: 10,
-          }}
-        >
-          <Image
-            style={{
-              height: 28,
-
-              opacity: 0.7,
-              alignContent: 'center',
-              alignSelf: 'center',
-              width: 28,
-              borderRadius: 100,
-            }}
-            resizeMode="contain"
-            source={require('../../../Assets/Icons/hide-eye.png')}
-          />
-        </TouchableOpacity>
       </View>
-    </View>
+
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ flex: 1, marginLeft: 5 }}>
+          <AtomindButton text="Send"    onPress={() => {
+              navigation.navigate('SendCrypto')
+            }}/>
+        </View>
+
+        <View style={{ flex: 1, marginLeft: 5 }}>
+          <AtomindButton
+            text="Receive"
+            onPress={() => {
+              navigation.navigate('ReceiveCrypto')
+            }}
+          />
+        </View>
+      </View>
+    </ImageBackground>
   )
 }
 
