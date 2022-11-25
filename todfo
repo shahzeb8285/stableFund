@@ -1,0 +1,17 @@
+send screen 
+ logo not showing
+
+
+
+ add usdt,busd,usdc in default crypto list
+
+
+
+
+show txn detail screen after making the txn 
+
+example payload: 
+{"tx": {"chainId": 56, "confirmations": 0, "data": "0xa9059cbb0000000000000000000000000235839f44d03db7ec4ec4da0b54a38dfa23bea6000000000000000000000000000000000000000000000000016345785d8a0000", "from": "0x9031D6E927A6311Cd3a4e158F139E1f29dfF00b2", "gasLimit": [Object], "gasPrice": [Object], "hash": "0x3664e89458ed1e1db2bf88c180bae457f9a1d0231e9b28cc4d30f1d662197b4c", "nonce": 0, "r": "0x132afa464adcd063f1a4fc0a253e393d351d4697dcdeb0fe439139d6ceec5feb", "s": "0x6965095a7603c6aab97abeb9ba21be55317b698686309ea7e5f32367cf735917", "to": "0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56", "type": null, "v": 148, "value": [Object], "wait": [Function anonymous]}}
+
+
+ history
