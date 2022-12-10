@@ -20,9 +20,11 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
   const theme = useTheme()
 
   const [wallet, setWallet] = useState()
+  const [isonlyView, setOnlyView] = useState(false)
 
   useEffect(() => {
     setWallet(JSON.parse(route.params.wallet))
+    setOnlyView(route.params.onlyView)
   }, [route.params])
 
   const renderSeeds = () => {
@@ -45,7 +47,7 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
           textAlign: 'center',
           alignContent: 'center',
           alignItems: 'center',
-          marginTop:20,
+          marginTop: 20,
           // justifyContent: 'center',
           // backgroundColor: 'blue',
           marginHorizontal: 25,
@@ -58,7 +60,7 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
             color: theme['color-primary-700'],
             marginBottom: 10,
             fontWeight: '700',
-            fontSize:28
+            fontSize: 28
           }}
         >
           Seed Phrase
@@ -66,13 +68,13 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
 
         <AtomindText
           style={{
-            alignSelf:"flex-start",
-            textAlign:"left",
+            alignSelf: "flex-start",
+            textAlign: "left",
             color: '#606060',
-            fontSize:16,
-            fontWeight:'400',
+            fontSize: 16,
+            fontWeight: '400',
             marginVertical: 15,
-            
+
           }}
         >
           Protect your wallet with your seed phrasecarefully write these 12 words down or copy them.
@@ -80,7 +82,7 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
 
         {wallet && wallet.mnemonic ? renderSeeds() : null}
 
-       
+
 
         <View
           style={{
@@ -92,13 +94,18 @@ const ShowSecretPhrasesScreen = ({ route, navigation }) => {
         >
           <AtomindButton
             onPress={() => {
-              navigation.navigate('VerifySecretPharases', {
-                wallet: JSON.stringify(wallet),
-              })
+              if (isonlyView) {
+                navigation.goBack()
+              } else {
+                navigation.navigate('VerifySecretPharases', {
+                  wallet: JSON.stringify(wallet),
+                })
+              }
+
             }}
             text="Continue"
           />
-          
+
         </View>
       </View>
     </BaseScreen>

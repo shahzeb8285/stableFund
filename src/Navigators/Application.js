@@ -22,7 +22,8 @@ const ApplicationNavigator = () => {
 
   const [isAuth,setAuth ] = useState(false)
   const [initializing, setInitializing] = useState(true);
-  const user = useSelector(state => state.user.data)
+  const user = useSelector(state => state.user.data);
+  
   const loadUserData = async(_fbUser)=>{
 
     const userFromDB = (await getDoc(`users`,_fbUser.uid)).data()

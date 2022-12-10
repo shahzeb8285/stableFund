@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -30,7 +30,8 @@ import {
   BuyFragment,
   SendCrypto,
   ReceiveCrypto,
-  StakingDetails
+  StakingDetails,
+  SettingScreen
 } from '@/Containers'
 import { useEffect } from 'react'
 import VerifyEmail from '@/Containers/Auth/VerifyEmail'
@@ -40,11 +41,11 @@ const NormalRoutes = ({ }) => {
   const Stack = createStackNavigator()
   const user = useSelector(state => state.user.data)
   const isUserLoading = useSelector(state => state.user.isLoading)
-  const [routes,setRoutes] = useState(<View/>)
+  const [routes, setRoutes] = useState(<View />)
 
-  useEffect(()=>{
+  useEffect(() => {
     setRoutes(renderRoutes())
-  },[user])
+  }, [user])
 
   const normalRoutes = () => {
     return <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -59,8 +60,8 @@ const NormalRoutes = ({ }) => {
         component={ReceiveCrypto}
       />
 
-      
-        <Stack.Screen
+
+      <Stack.Screen
         name="StakingDetails"
         component={StakingDetails}
       />
@@ -73,10 +74,18 @@ const NormalRoutes = ({ }) => {
       <Stack.Screen
         name="MyProfile"
         component={MyProfile}
-        options={{
-          animationEnabled: false,
-        }}
+
       />
+
+      <Stack.Screen
+        name="SettingScreen"
+        component={SettingScreen}
+
+      />
+
+
+
+
 
       <Stack.Screen
         name="LoginVerifyOtp"
@@ -85,14 +94,14 @@ const NormalRoutes = ({ }) => {
           animationEnabled: false,
         }}
       />
-
+{/* 
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
         options={{
           animationEnabled: false,
         }}
-      />
+      /> */}
 
 
       <Stack.Screen
@@ -117,7 +126,7 @@ const NormalRoutes = ({ }) => {
         }}
       />
 
-{/* 
+      
       <Stack.Screen
         name="ShowSecretPhrasesScreen"
         component={ShowSecretPhrasesScreen}
@@ -127,10 +136,31 @@ const NormalRoutes = ({ }) => {
           mode: 'modal',
           transparentCard: true,
         }}
-      /> */}
+      />
 
 
 
+<Stack.Screen
+            name="VerifySecretPharases"
+            component={VerifySecretPharases}
+            options={{
+              headerShown: false,
+              headerMode: 'none',
+              mode: 'modal',
+              transparentCard: true,
+            }}
+          />
+
+<Stack.Screen
+            name="SuccessWallet"
+            component={SuccessWallet}
+            options={{
+              headerShown: false,
+              headerMode: 'none',
+              mode: 'modal',
+              transparentCard: true,
+            }}
+          />
       {/* <Stack.Screen
         name="UnderstandTheRisk"
         component={UnderstandTheRisk}
@@ -218,7 +248,7 @@ const NormalRoutes = ({ }) => {
     }
   }
   return (
- 
+
 
     routes
   )

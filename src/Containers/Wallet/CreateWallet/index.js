@@ -22,8 +22,9 @@ import { useCallback } from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import user from '@/Store/Slices/User/user'
-import { setDoc } from '@/Firebase/Firestore'
+import { getDoc, setDoc } from '@/Firebase/Firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Config } from '@/Config'
 
 const CreateWalletScreen = props => {
   const theme = useTheme()
@@ -45,13 +46,23 @@ const CreateWalletScreen = props => {
     setLoading(true)
     const _wallet = await CreateNewWallet()
     const refereeCode = await AsyncStorage.getItem('refereeCode');
+    const referrerAddressDoc = (await getDoc(`referrerCodes`, refereeCode)).data()
+    let referrerAddress = null;
 
+    if (referrerAddressDoc) {
+      referrerAddress = referrerAddressDoc.address
+    } else {
+      referrerAddress = Config.DEFAULT_REFERRER
+    }
     const userObj = {
       ...user,
-      wallet:_wallet,
-      refereeCode
+      wallet: _wallet,
+      refereeCode,
+      referrerAddress
     }
-    await setDoc("users",user.uid,userObj)
+    await setDoc("users", user.uid, userObj)
+    const myReferralCode = await AsyncStorage.getItem('myReferralCode');
+    await setDoc("referrerCodes", myReferralCode, {address:_wallet.address})
 
     setLoading(false)
     setWallet(_wallet)
@@ -59,7 +70,7 @@ const CreateWalletScreen = props => {
 
   return (
     <BaseScreen isWhiteBg>
-    
+
       <View
         style={{
           textAlign: 'center',
@@ -89,7 +100,7 @@ const CreateWalletScreen = props => {
           </AtomindText>
         ) : (
           <>
-           
+
 
             <AtomindText
               style={{
@@ -125,7 +136,7 @@ const CreateWalletScreen = props => {
               }}
             >
               <AtomindButton
-              text="Continue"
+                text="Continue"
                 accessoryLeft={isLoading ? LoadingIndicator : null}
                 onPress={async () => {
                   props.navigation.navigate('ShowSecretPhrasesScreen', {
@@ -133,7 +144,7 @@ const CreateWalletScreen = props => {
                   })
                 }}
               />
-               
+
             </View>
           </>
         )}

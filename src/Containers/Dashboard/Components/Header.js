@@ -16,7 +16,7 @@ import { AtomindText } from '@/Components'
 import { navigate } from '@/Navigators/utils'
 import { useSelector } from 'react-redux'
 import { trimWallet } from '@/Utils'
-
+import SettingIcon from "@/Assets/SVG/SettingIcon"
 // const HomeIcon = props => {
 //   return <Icon {...props} fill={props.style.tintColor} name="home-outline" />
 // }
@@ -36,6 +36,9 @@ import { trimWallet } from '@/Utils'
 //     <Icon {...props} fill={props.style.tintColor} name="settings-2-outline" />
 //   )
 // }
+
+
+
 
 const Header = props => {
 
@@ -114,12 +117,18 @@ const Header = props => {
           </AtomindText>
         </View>
       </View>
-      {/* <TouchableOpacity
+      <TouchableOpacity
+
+        onPress={()=>{
+          navigate('SettingScreen')
+
+        }}
         style={{
           borderWidth: 1,
           borderColor: "#fff",
           borderRadius:15,
-          // alignItems: 'center',
+          alignItems: 'center',
+          textAlign:"center",
           justifyContent: 'center',
           flex: 1,
           height: 50,
@@ -127,19 +136,8 @@ const Header = props => {
 
         }}
       >
-        <Image
-          style={{
-            height: 28,
-            tintColor:"#fff",
-            alignContent: 'center',
-            alignSelf: 'center',
-            width: 28,
-            // borderRadius: 100,
-          }}
-          resizeMode="contain"
-          source={require('../../../Assets/Icons/notification-received.png')}
-        />
-      </TouchableOpacity> */}
+       <SettingIcon fill="#fff"  />
+      </TouchableOpacity>
     </View>
   )
 }

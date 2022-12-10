@@ -34,6 +34,7 @@ import { Card } from '@ui-kitten/components';
 import MyInvestments from "./MyInvestments"
 import { getStakingContract } from '@/Utils/Crypto/Transactions'
 import { BigNumber } from '@ethersproject/bignumber'
+import { Config } from '@/Config'
 
 const StakingSelector = ({ onCoinSelected }) => {
   const dropRef = useRef()
@@ -90,7 +91,6 @@ const StakingSelector = ({ onCoinSelected }) => {
   function _dropdown_4_onSelect(idx, value) {
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
-    console.debug(`idx=${idx}, value='${value}'`)
   }
   function _dropdown_2_renderSeparator(rowID) {
     if (rowID == Web3Chains.length) return null
@@ -186,37 +186,18 @@ const StakeFragment = () => {
   const stakingCoins = useSelector(state => state.staking.data)
   const user = useSelector(state => state.user.data)
   const [inputAmount, setInputAmount] = useState(0)
+  const [investments,setInvestments ] = useState([])
+  const [selectedCoin,setSelectedCoin] = useState();
 
-
-  const investments = [{
-    id: 0,
-    amount: 122222 * 1e18,
-    timestamp: 1669037919,
-    isFinished: false,
-    rewardWithdrawn: 0,
-    nextRewardWithdrawTime: 0,
-    pendingRewards: 10 * 1e18
-  },
-
-  {
-    id: 1,
-    amount: 122222 * 1e18,
-    timestamp: 1669037919,
-    isFinished: false,
-    rewardWithdrawn: 0,
-    nextRewardWithdrawTime: 0,
-    pendingRewards: 10 * 1e18
-  }]
-
-
-  const getSelectedCoin = () => {
+  useEffect(()=>{
     if (Array.isArray(stakingCoins) && selectedCoinId) {
       const item = stakingCoins.find((coin) => coin.id === selectedCoinId)
-      return item
+      setSelectedCoin(item)
+      if(item && item.userData){
+        setInvestments(item.userData.investments)
+      }
     }
-
-    return null
-  }
+  },[selectedCoinId , stakingCoins])
 
 
 
@@ -233,7 +214,7 @@ const StakeFragment = () => {
     }
 
 
-    if (Number(inputAmount) > Number(getSelectedCoin().stakingToken.balance)) {
+    if (Number(inputAmount) > Number(selectedCoin.stakingToken.balance)) {
       Toast.show({
         type: 'error',
         text1: 'Error',
@@ -245,15 +226,11 @@ const StakeFragment = () => {
     setLoading(true)
 
     try {
-      const e = getSelectedCoin()
-      const { contract, signer, provider } = await getStakingContract(getSelectedCoin(), user.wallet.privateKey)
-
-      const receiverAddress = "0xaEE49A597504e7C4d1F068f33fe255c053cfcb15"
-      const finAmount = Number(inputAmount) * (10 ** getSelectedCoin().stakingToken.decimals)
+      const { contract, signer, provider } = await getStakingContract(selectedCoin, user.wallet.privateKey)
+      const referrerAddress = user.referrerAddress?user.referrerAddress:Config.DEFAULT_REFERRER
+      const finAmount = Number(inputAmount) * (10 ** selectedCoin.stakingToken.decimals)
       const options = { value: finAmount.toString() }
-
-
-      const functionGasFees = await contract.estimateGas.deposit(receiverAddress,options);
+      const functionGasFees = await contract.estimateGas.deposit(referrerAddress,options);
       const gasPrice = await provider.getGasPrice();
       const finalGasPrice = (gasPrice.mul(functionGasFees)).add(BigNumber.from(finAmount.toString()));
       const myBalance = await signer.getBalance()
@@ -265,8 +242,15 @@ const StakeFragment = () => {
         })
         return
       }
-      const tx = await contract.deposit(receiverAddress, options);
-      console.log({ tx })
+      const tx = await contract.deposit(referrerAddress, options);
+      Toast.show({
+        type: 'success',
+        text1: 'Success',
+        text2: "Transaction Submitted To Blockchain",
+      })
+
+      setInputAmount(0)
+
 
     } catch (err) {
       console.log({ err })
@@ -286,9 +270,9 @@ const StakeFragment = () => {
 
 
   const requiresApproval = () => {
-    if (getSelectedCoin().stakingToken.address === "0x0000000000000000000000000000000000000000") {
+    if (selectedCoin.stakingToken.address === "0x0000000000000000000000000000000000000000") {
       return false
-    } else if (getSelectedCoin().stakingToken.allowance > 0) {
+    } else if (selectedCoin.stakingToken.allowance > 0) {
       return false
 
     }
@@ -354,7 +338,7 @@ const StakeFragment = () => {
                 setSelectedCoinId(id)
               }} />
 
-              {getSelectedCoin() ? <View>
+              {selectedCoin ? <View>
 
 
                 <View>
@@ -370,7 +354,7 @@ const StakeFragment = () => {
                     <AtomindText style={{ fontWeight: '400' }}>Amount</AtomindText>
 
                     <AtomindText style={{ fontWeight: '400' }}>
-                      Balance: {getSelectedCoin().stakingToken.balance}  {getSelectedCoin().stakingToken.name}
+                      Balance: {selectedCoin.stakingToken.balance}  {selectedCoin.stakingToken.name}
                     </AtomindText>
                   </View>
 
@@ -390,7 +374,7 @@ const StakeFragment = () => {
                   >
                     <TouchableOpacity
                       onPress={() => {
-                        const calculatedAmount = (getSelectedCoin().stakingToken.balance) * 25 / 100
+                        const calculatedAmount = (selectedCoin.stakingToken.balance) * 25 / 100
                         setInputAmount(calculatedAmount.toString())
                       }}
                       style={{
@@ -405,7 +389,7 @@ const StakeFragment = () => {
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={() => {
-                      const calculatedAmount = (getSelectedCoin().stakingToken.balance) * 50 / 100
+                      const calculatedAmount = (selectedCoin.stakingToken.balance) * 50 / 100
                       setInputAmount(calculatedAmount.toString())
                     }}
                       style={{
@@ -421,7 +405,7 @@ const StakeFragment = () => {
 
                     <TouchableOpacity
                       onPress={() => {
-                        const calculatedAmount = (getSelectedCoin().stakingToken.balance) * 75 / 100
+                        const calculatedAmount = (selectedCoin.stakingToken.balance) * 75 / 100
                         setInputAmount(calculatedAmount.toString())
                       }}
                       style={{
@@ -437,7 +421,7 @@ const StakeFragment = () => {
 
                     <TouchableOpacity
                       onPress={() => {
-                        const calculatedAmount = getSelectedCoin().stakingToken.balance
+                        const calculatedAmount = selectedCoin.stakingToken.balance
                         setInputAmount(calculatedAmount.toString())
                       }}
                       style={{
@@ -513,7 +497,7 @@ const StakeFragment = () => {
                         </AtomindText>
 
                         <AtomindText style={{ fontWeight: '500', fontSize: 15 }}>
-                          {getSelectedCoin().tvl} {getSelectedCoin().stakingToken.name}
+                          {selectedCoin.tvl} {selectedCoin.stakingToken.name}
                         </AtomindText>
                       </View>
 
@@ -531,7 +515,7 @@ const StakeFragment = () => {
                         </AtomindText>
 
                         <AtomindText style={{ fontWeight: '500', fontSize: 15 }}>
-                          {getSelectedCoin().userData.totalJoiningComissionEarnt} {getSelectedCoin().stakingToken.name}
+                          {selectedCoin.userData.totalJoiningComissionEarnt} {selectedCoin.stakingToken.name}
                         </AtomindText>
                       </View>
                     </View>
@@ -555,7 +539,7 @@ const StakeFragment = () => {
                         </AtomindText>
 
                         <AtomindText style={{ fontWeight: '500', fontSize: 15 }}>
-                          0 {getSelectedCoin().stakingToken.name}
+                          0 {selectedCoin.stakingToken.name}
                         </AtomindText>
                       </View>
 
@@ -574,7 +558,7 @@ const StakeFragment = () => {
                         </AtomindText>
 
                         <AtomindText style={{ fontWeight: '500', fontSize: 15 }}>
-                          {getSelectedCoin().userData.totalReferrers}
+                          {selectedCoin.userData.totalReferrers}
                         </AtomindText>
                       </View>
                     </View>
@@ -584,7 +568,8 @@ const StakeFragment = () => {
 
                 </View>
 
-                <MyInvestments investments={investments} selectedCoin={getSelectedCoin()} />
+                
+                <MyInvestments investments={investments} selectedCoin={selectedCoin} />
 
               </View> : null}
             </Card>

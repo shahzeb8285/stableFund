@@ -64,7 +64,6 @@ const ExchangeInput = ({ label, data, onSelect }) => {
   function _dropdown_4_onSelect(idx, value) {
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
-    console.debug(`idx=${idx}, value='${value}'`)
   }
   function _dropdown_2_renderSeparator(rowID) {
     if (rowID == Web3Chains.length) return null

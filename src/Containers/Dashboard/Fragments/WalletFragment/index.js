@@ -54,9 +54,7 @@ useEffect(()=>{
       for(let chain of Object.values(user.portfolio)){
           allTokens = [...allTokens, ...chain.tokenBalances]
       }
-     
-      // console.log("poiny",{token:allTokens[0],coin:coins[0]})
-      
+          
     }
 
     setCurrency(allTokens)

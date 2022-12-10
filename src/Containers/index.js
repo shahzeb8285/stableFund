@@ -2,7 +2,7 @@ export { default as WelcomeScreen1 } from './Welcome/Welcome1'
 export { default as WelcomeScreen2 } from './Welcome/Welcome2'
 
 export { default as StartupContainer } from './StartupContainer'
-export { default as LoginScreen } from './Auth/Login/Login'
+// export { default as LoginScreen } from './Auth/Login/Login'
 export { default as RegisterScreen } from './Auth/Register/Register'
 export { default as ForgotPassword } from './Auth/ForgotPassword/ForgotPassword'
 export { default as CreatePasscode } from './Passcode/CreatePasscode'
@@ -31,6 +31,7 @@ export { default as EmailLogin } from './Auth/Login/EmailLogin'
 export { default as LoginVerifyOtp } from './Auth/Login/LoginVerifyOtp'
 export { default as MyProfile } from "./MyProfile/MyProfile"
 
+export { default as SettingScreen } from "./SettingScreen"
 
 
 export { default as OnBoard } from './PreBoard'

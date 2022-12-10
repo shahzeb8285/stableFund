@@ -13,7 +13,6 @@ import 'node-libs-react-native/globals.js';
 
 
 import './Translations'
-import { LoginScreen } from './Containers'
 import Firebase, { FirebaseProvider } from './Firebase/FirebaseContext'
 
 const App = () => (

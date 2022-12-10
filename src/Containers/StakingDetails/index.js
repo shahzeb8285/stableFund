@@ -4,11 +4,21 @@ import { useEffect } from 'react'
 import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native'
 import { RNCamera } from 'react-native-camera'
 import moment from 'moment'
+import { getStakingContract } from '@/Utils/Crypto/Transactions'
+import Toast from 'react-native-toast-message'
+import { useSelector } from 'react-redux'
+import { Config } from '@/Config'
+import { getDoc } from '@/Firebase/Firestore'
+
+
 const StakingDetails = ({ route, navigation }) => {
 
     const [data, setData] = useState()
     const [coin, setCoin] = useState()
-    const [isLoading, setLoading] = useState(false)
+    const [isHarvestLoading, setHarvestLoading] = useState(false)
+    const [isWithdrawLoading, setWithdrawLoading] = useState(false)
+
+    const user = useSelector(state => state.user.data)
 
 
     useEffect(() => {
@@ -16,13 +26,101 @@ const StakingDetails = ({ route, navigation }) => {
         setCoin(route.params.coin.stakingToken)
     }, [route])
 
+
+    useEffect(()=>{
+        console.log({user})
+    },[user])
     const renderClaimButtonText = () => {
 
+        
         if (Date.now() / 1000 > data.nextRewardWithdrawTime) {
             return "Harvest Reward"
         }
 
         return `Claim Rewards at ${moment(data.nextRewardWithdrawTime * 1000).format("DD MMM YYYY hh:mm a")}`
+    }
+
+    const handleHarvestReward = async () => {
+
+ 
+        setHarvestLoading(true)
+
+        try {
+            const { contract, signer, provider } = await getStakingContract(route.params.coin, user.wallet.privateKey)
+
+            const investmentId = data.id
+            const functionGasFees = await contract.estimateGas.claimReward(investmentId);
+            const gasPrice = await provider.getGasPrice();
+            const finalGasPrice = (gasPrice.mul(functionGasFees));
+            const myBalance = await signer.getBalance()
+            if (myBalance.lt(finalGasPrice)) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: "Insuffient Balance To Pay Gas Fee",
+                })
+                return
+            }
+            const tx = await contract.claimReward(investmentId);
+            Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: "Transaction Submitted To Blockchain",
+            })
+
+
+        } catch (err) {
+            console.log({ err })
+        }
+
+        setHarvestLoading(false)
+        if (navigation) {
+            navigation.goBack()
+        }
+    }
+
+
+
+    const handleWithdraw = async () => {
+        setWithdrawLoading(true)
+
+        try {
+            const { contract, signer, provider } = await getStakingContract(route.params.coin, user.wallet.privateKey)
+
+            const investmentId = data.id
+            const functionGasFees = await contract.estimateGas.withdraw(investmentId);
+
+            const gasPrice = await provider.getGasPrice();
+
+            const finalGasPrice = (gasPrice.mul(functionGasFees));
+            const myBalance = await signer.getBalance()
+            if (myBalance.lt(finalGasPrice)) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Error',
+                    text2: "Insuffient Balance To Pay Gas Fee",
+                })
+                return
+            }
+            const tx = await contract.withdraw(investmentId);
+            Toast.show({
+                type: 'success',
+                text1: 'Success',
+                text2: "Transaction Submitted To Blockchain",
+            })
+
+
+        } catch (err) {
+            console.log({ err })
+        }
+
+        setWithdrawLoading(false)
+
+
+        if (navigation) {
+            navigation.goBack()
+        }
+
     }
     return (
         <View
@@ -92,7 +190,7 @@ const StakingDetails = ({ route, navigation }) => {
                             </AtomindText>
 
                             <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
-                                {moment(data.timestamp * 1000).add(1, "month").format("DD MMM YYYY hh:mm a")}
+                                {moment((Number(data.timestamp) + (Config.ONE_DAY * 30)) * 1000).format("DD MMM YYYY hh:mm a")}
                             </AtomindText>
                         </View>
 
@@ -172,8 +270,20 @@ const StakingDetails = ({ route, navigation }) => {
 
 
 
-                        <AtomindButton isLoading={isLoading} text={renderClaimButtonText()} disabled={Date.now() / 1000 < data.nextRewardWithdrawTime} />
-                        <AtomindButton isLoading={isLoading} text="Withdraw" disabled={Date.now() / 1000 < moment(data.timestamp * 1000).add(1, "month").unix()} />
+                        <AtomindButton
+                            onPress={() => {
+                                handleHarvestReward()
+                            }}
+                            isLoading={isHarvestLoading}
+
+                            text={renderClaimButtonText()}
+                            disabled={Date.now() / 1000 < data.nextRewardWithdrawTime} />
+                        <AtomindButton onPress={() => {
+                            handleWithdraw()
+                        }} isLoading={isWithdrawLoading} text={data.isFinished ? "Closed" : "Withdraw"}
+                            disabled={
+                                (Date.now() / 1000 < moment((Number(data.timestamp) + (Config.ONE_DAY * 30)) * 1000).unix()) || data.isFinished
+                            } />
 
                     </View>
 
@@ -185,44 +295,6 @@ const StakingDetails = ({ route, navigation }) => {
     )
 }
 
-const styles = StyleSheet.create({
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // marginTop: 22
-    },
-    modalView: {
-        margin: 20,
 
-        backgroundColor: 'white',
-        borderRadius: 8,
-        padding: 14,
-        alignItems: 'center',
-        shadowColor: '#000',
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-    },
-    buttonOpen: {
-        backgroundColor: '#F194FF',
-    },
-    buttonClose: {
-        backgroundColor: '#2196F3',
-    },
-    textStyle: {
-        color: 'white',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    modalText: {
-        marginBottom: 5,
-        textAlign: 'center',
-        fontSize: 20,
-        fontWeight: '700',
-    },
-})
 
 export default StakingDetails

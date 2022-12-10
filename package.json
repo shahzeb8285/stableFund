@@ -28,6 +28,7 @@
     "@react-navigation/native-stack": "^6.6.2",
     "@react-navigation/stack": "^6.2.1",
     "@reduxjs/toolkit": "^1.8.1",
+    "@routerprotocol/router-js-sdk": "^0.1.5",
     "@shopify/react-native-skia": "^0.1.153",
     "@ui-kitten/components": "^5.1.2",
     "@ui-kitten/eva-icons": "^5.1.2",

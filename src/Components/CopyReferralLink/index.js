@@ -6,9 +6,11 @@ import AtomindText from "../AtomindText"
 import { View } from "react-native"
 import Toast from 'react-native-toast-message'
 import Clipboard from '@react-native-clipboard/clipboard'
+import { useSelector } from 'react-redux'
 
 export  default  CopyReferralLink = ()=>{
 
+  const user = useSelector(state => state.user.data)
 
 
 
@@ -76,6 +78,17 @@ borderRadius:10,
    Send & Share Your Referral Link To Earn{'\n'}Unlimited Rewards
   </AtomindText>
 
+
+
+  <AtomindText style={{
+    fontSize: 18,
+
+    fontWeight: '600',
+    color: "blue",
+
+  }}>
+  Your Referral Code is  {user.myReferralCode}
+  </AtomindText>
 </View>
 
 </TouchableOpacity>

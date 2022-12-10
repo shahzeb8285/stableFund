@@ -24,11 +24,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
 const MyProfile = ({ navigation }) => {
-  const theme = useTheme()
   const user = useSelector(state => state.user.data)
   const [ isLoading,setLoading] = useState(false)
   const [ name,setName] = useState("")
   const dispatch = useDispatch()
+
+
   const updateFBUser = async()=>{
     const refereeCode = await AsyncStorage.getItem('refereeCode');
     const myReferralCode = await AsyncStorage.getItem('myReferralCode');
@@ -55,6 +56,8 @@ const MyProfile = ({ navigation }) => {
       setLoading(false)
     }
   }
+
+
   return (
     <Layout style={[styles.container, { backgroundColor: '#fff' }]}>
       <SafeAreaView style={{ width: '100%', height: '100%' }}>

@@ -33,48 +33,49 @@ import { CreateNewWallet } from '@/Utils/Crypto'
 
 const EmailLogin = ({ navigation }) => {
   const theme = useTheme()
-  const [email,setEmail] = useState("")
-  const [password,setPassword] = useState("")
-  const [isLoading,setLoading] = useState(false)
- 
- 
- 
-  const errorToast = (msg)=>{
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [isLoading, setLoading] = useState(false)
+
+
+
+  const errorToast = (msg) => {
     Toast.show({
       type: 'error',
       text1: 'Error',
       text2: msg,
     })
   }
-  const validateFields = ()=>{
-    if(!email){
+  const validateFields = () => {
+    if (!email) {
       errorToast("Enter Valid Email")
-      return 
+      return
     }
 
 
-    if(!password){
+    if (!password) {
       errorToast("Enter Valid Password")
-      return 
+      return
     }
     return true
   }
-  const handleLogin = async()=>{
+  const handleLogin = async () => {
 
-    if(!validateFields()){
+    
+    if (!validateFields()) {
       return
     }
     setLoading(true)
 
-    try{
+    try {
 
-        await auth().signInWithEmailAndPassword(email,password)
-    }catch(error){
-      if(error.code === "auth/invalid-email"){
+      await auth().signInWithEmailAndPassword(email, password)
+    } catch (error) {
+      if (error.code === "auth/invalid-email") {
         errorToast("Invalid Email")
-      }else   if(error.code === "auth/user-not-found"){
+      } else if (error.code === "auth/user-not-found") {
         errorToast("Account Not Found Please Register")
-      }else   if(error.code === "auth/wrong-password"){
+      } else if (error.code === "auth/wrong-password") {
         errorToast("Incorrect Password")
       }
       setLoading(false)
@@ -85,104 +86,104 @@ const EmailLogin = ({ navigation }) => {
 
     <ImageBackground source={OnBoardBg} style={{ flex: 1 }}>
 
-    <SafeAreaView style={[styles.container]}>
-      <ScrollView style={[styles.container]}>
-        <View style={[styles.container, { marginTop: 25 }]}>
-          
+      <SafeAreaView style={[styles.container]}>
+        <ScrollView style={[styles.container]}>
+          <View style={[styles.container, { marginTop: 25 }]}>
 
-          <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-            
-            <Image
-              source={require('../../../Assets/Images/logo.png')}
-              resizeMode="contain"
-              style={{
-                height: 150,
-                width: 150,
-                marginTop: 20,
-                // marginBottom: 50,
-                alignContent: 'center',
-                justifyContent: 'center',
-                alignItems: 'center',
-                alignSelf: 'center',
-              }}
+
+            <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
+
+              <Image
+                source={require('../../../Assets/Images/logo.png')}
+                resizeMode="contain"
+                style={{
+                  height: 150,
+                  width: 150,
+                  marginTop: 20,
+                  // marginBottom: 50,
+                  alignContent: 'center',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  alignSelf: 'center',
+                }}
               />
-              
 
-              <AtomindText style={{ fontSize: 25, fontWeight: "900", textAlign: 'center'}}>
+
+              <AtomindText style={{ fontSize: 25, fontWeight: "900", textAlign: 'center' }}>
                 Welcome Back!
               </AtomindText>
-           
+
 
               <IconInput
-                                title="Email"
-                                onChangeText={(t)=>{
-                                  setEmail(t)
-                                }}
+                title="Email"
+                onChangeText={(t) => {
+                  setEmail(t)
+                }}
 
-              // icon={<EmailIcon />}
-              placeholder="Enter Email"
-              textContentType={'emailAddress'}
-            />
+                // icon={<EmailIcon />}
+                placeholder="Enter Email"
+                textContentType={'emailAddress'}
+              />
 
               <IconInput
                 title="Password"
-              textContentType="password"
-              // icon={<PasswordIcon />}
-              // leftIcon={}
-              onChangeText={(t)=>{
-                setPassword(t)
-              }}
-
-              placeholder="Enter Password"
-            />
-            <View>
-              <HyperLink
-                text={'Forgot Password?'}
-                onPress={() => {
-                  navigation.navigate('ForgotPassword')
+                textContentType="password"
+                // icon={<PasswordIcon />}
+                // leftIcon={}
+                onChangeText={(t) => {
+                  setPassword(t)
                 }}
+
+                placeholder="Enter Password"
               />
+              <View>
+                <HyperLink
+                  text={'Forgot Password?'}
+                  onPress={() => {
+                    navigation.navigate('ForgotPassword')
+                  }}
+                />
+              </View>
+
+              <AtomindButton text="Login" isLoading={isLoading} onPress={() => {
+                // navigation.navigate("Dashboard")
+                handleLogin()
+              }} />
             </View>
-
-            <AtomindButton text="Login" isLoading={isLoading}  onPress={() => {
-              // navigation.navigate("Dashboard")
-              handleLogin()
-            }} />
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-          marginHorizontal: 20,
-          alignSelf: 'center',
-        }}
-      >
-        <AtomindText
+        <View
           style={{
-            fontWeight: '400',
-            marginHorizontal: 4,
-            color: '#00000099',
-            fontFamily: 'DMSans-Regular',
+            flexDirection: 'row',
+            alignItems: 'center',
+            alignContent: 'center',
+            alignItems: 'center',
+            marginHorizontal: 20,
+            alignSelf: 'center',
           }}
         >
-          Don't have an account?
-        </AtomindText>
+          <AtomindText
+            style={{
+              fontWeight: '400',
+              marginHorizontal: 4,
+              color: '#00000099',
+              fontFamily: 'DMSans-Regular',
+            }}
+          >
+            Don't have an account?
+          </AtomindText>
 
-        <HyperLink
-          text={'Sign up'}
-          onPress={() => {
-            navigation.navigate('Register')
-          }}
-        />
-      </View>
+          <HyperLink
+            text={'Sign up'}
+            onPress={() => {
+              navigation.navigate('Register')
+            }}
+          />
+        </View>
       </SafeAreaView>
-      
-      </ImageBackground>
+
+    </ImageBackground>
   )
 }
 const styles = StyleSheet.create({

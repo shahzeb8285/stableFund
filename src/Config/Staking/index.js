@@ -20,13 +20,14 @@ const getInvestmentById = async (invId, contract, provider, userAddress) => {
     ]);
 
 
+
     const investment = {
         id: invId,
-        amount: depositInfo.toString(),
-        timestamp: depositInfo.timestamp.toString(),
-        rewardWithdrawn: depositInfo.rewardWithdrawn.toString(),
-        isFinished: depositInfo.isFinished,
-        nextRewardWithdrawTime: depositInfo.nextRewardWithdrawTime.toString(),
+        amount: depositInfo[0].toString(),
+        timestamp: depositInfo[1].toString(),
+        rewardWithdrawn: depositInfo[2].toString(),
+        isFinished:  depositInfo[3],
+        nextRewardWithdrawTime:  depositInfo[4].toString(),
         pendingRewards: pendingReward.toString()
 
     }
@@ -102,11 +103,11 @@ const loadSingleData = async (info, userWallet) => {
     const response = {
         ...info,
         isPaused,
-        tvl,
+        tvl:Number(tvl/10**info.stakingToken.decimals),
         userData: {
             investments,
             totalReferrers,
-            totalJoiningComissionEarnt,
+            totalJoiningComissionEarnt:Number(totalJoiningComissionEarnt/10**info.stakingToken.decimals),
 
         },
         stakingToken: { ...info.stakingToken, balance, allowance }
@@ -125,11 +126,13 @@ const loadStakingData = async (userWallet) => {
     const finalData = []
     for (let item of CONFIG) {
         try {
-            const data = await loadSingleData(item, userWallet)
-            finalData.push(data)
+        
+           const data = await loadSingleData(item, userWallet)
+           finalData.push(data)
         } catch (error) {
-            console.error("c", error)
             finalData.push(item)
+            console.log("loadStakingDataqwe",error)
+
         }
     }
 

@@ -21,9 +21,7 @@ import { useEffect } from 'react'
 const StakingInput = ({ label, data, onSelect ,setInputAmount,value}) => {
 
 
-  useEffect(()=>{
-    console.log("valueee",value)
-  },[value])
+
   return (
     <LinearGradient
       colors={['#6B56DF', '#BA4BFB']}
