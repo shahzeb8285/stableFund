@@ -41,3 +41,5 @@ export { default as ExchangeFragment } from "./Dashboard/Fragments/ExchangeFragm
 export { default as SendCrypto } from "./Wallet/SendCrypto"
 export { default as ReceiveCrypto } from "./Wallet/ReceiveCrypto"
 export { default as StakingDetails } from "./StakingDetails"
+export { default as WalletHistory } from "./WalletHistory"
+

@@ -67,12 +67,7 @@ const Header = props => {
             goToMYProfile()
           }}
         >
-          {/* <Image
-            style={{ height: 46, width: 46, borderRadius: 10 }}
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/340px-Albert_Einstein_Head.jpg',
-            }}
-          /> */}
+        
           <AtomindText           
             style={{ 
             fontWeight:"900",

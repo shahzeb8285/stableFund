@@ -48,26 +48,29 @@ const ExchangeFragment = ({ route, navigation }) => {
 
     const _currencyList = []
 
-    for (let chainId of Object.keys(user.portfolio)) {
-      const chain = user.portfolio[chainId]
-      for (let token of chain.tokenBalances) {
+    
+    if(user.portfolio){
+      for (let chainId of Object.keys(user.portfolio)) {
+        const chain = user.portfolio[chainId]
+        for (let token of chain.tokenBalances) {
+          _currencyList.push({
+            ...token,
+            chainId,
+          })
+        }
+  
+  
         _currencyList.push({
-          ...token,
+          ...chain.nativeBalance,
           chainId,
+          isCoin: true
         })
       }
-
-
-      _currencyList.push({
-        ...chain.nativeBalance,
-        chainId,
-        isCoin: true
-      })
+  
+  
+      setCurrencyList(_currencyList)
+      setSelectedCurrency(_currencyList[0])
     }
-
-
-    setCurrencyList(_currencyList)
-    setSelectedCurrency(_currencyList[0])
   }, [user])
 
 

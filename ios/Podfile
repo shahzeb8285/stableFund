@@ -4,7 +4,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '14.0'
 
-target 'StableF' do
+target 'ApexFund' do
   use_frameworks!
   config = use_native_modules!
   # flags = get_default_flags()
@@ -38,7 +38,7 @@ target 'StableF' do
 
 
 
-  target 'StableFTests' do
+  target 'ApexFundTests' do
     inherit! :complete
     # Pods for testing
   end

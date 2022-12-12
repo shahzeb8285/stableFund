@@ -20,6 +20,11 @@ import { AtomindButton, AtomindText } from '@/Components'
 import { useNavigation } from '@react-navigation/native'
 import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import SettingIcon from "@/Assets/SVG/SettingIcon"
+import HistoryIcon from "@/Assets/SVG/HistoryIcon"
+import { navigate } from '@/Navigators/utils'
+
+
 
 const PortfolioReporter = ({ }) => {
 
@@ -28,73 +33,73 @@ const PortfolioReporter = ({ }) => {
   const [amountChange, setAmountChange] = useState(0)
 
   useEffect(() => {
-  try{
-    if (user && user.portfolio) {
+    try {
+      if (user && user.portfolio) {
 
 
-      // const netProfitOnNative =  Object.values(user.portfolio)
-      // .map(item => {
-      //   const prePrice = (item.nativeBalance.value.price * 100)/(100+item.nativeBalance.value.pricePercentChange1d)
-      //  console.log("dsdsdssds",item.nativeBalance.name, {
-      //   currentValue:item.nativeBalance.balance*item.nativeBalance.value.price ,
-      //   lastValue:item.nativeBalance.balance*prePrice ,
-      //   percentChange:item.nativeBalance.value.pricePercentChange1h,
-      //   prePrice
+        // const netProfitOnNative =  Object.values(user.portfolio)
+        // .map(item => {
+        //   const prePrice = (item.nativeBalance.value.price * 100)/(100+item.nativeBalance.value.pricePercentChange1d)
+        //  console.log("dsdsdssds",item.nativeBalance.name, {
+        //   currentValue:item.nativeBalance.balance*item.nativeBalance.value.price ,
+        //   lastValue:item.nativeBalance.balance*prePrice ,
+        //   percentChange:item.nativeBalance.value.pricePercentChange1h,
+        //   prePrice
 
-      // })
-      //   return {
-      //     currentValue:item.nativeBalance.balance*item.nativeBalance.value.price ,
-      //     lastValue:item.nativeBalance.balance*prePrice ,
+        // })
+        //   return {
+        //     currentValue:item.nativeBalance.balance*item.nativeBalance.value.price ,
+        //     lastValue:item.nativeBalance.balance*prePrice ,
 
-      //   }
-      // })
-      
-      // .reduce((prev, next) => prev + next) / Object.values(user.portfolio).length;
+        //   }
+        // })
 
-      const nativeChangePercent = Object.values(user.portfolio)
-        .map(item => {
-          return item.nativeBalance.value.pricePercentChange1d
-        }).reduce((prev, next) => prev + next) / Object.values(user.portfolio).length;
+        // .reduce((prev, next) => prev + next) / Object.values(user.portfolio).length;
 
-      let allTokens = [];
+        const nativeChangePercent = Object.values(user.portfolio)
+          .map(item => {
+            return item.nativeBalance.value.pricePercentChange1d
+          }).reduce((prev, next) => prev + next) / Object.values(user.portfolio).length;
 
-      for (let chain of Object.values(user.portfolio)) {
-        allTokens = [...allTokens, ...chain.tokenBalances]
+        let allTokens = [];
+
+        for (let chain of Object.values(user.portfolio)) {
+          allTokens = [...allTokens, ...chain.tokenBalances]
+        }
+
+        let tokenChangePercent = 0;
+
+        for (let token of allTokens) {
+          tokenChangePercent += token.value.pricePercentChange1d
+        }
+
+        tokenChangePercent = tokenChangePercent / allTokens.length
+        const totalChange = (tokenChangePercent + nativeChangePercent) / 2
+
+        setPercentChange(totalChange)
+        const totalValue = Object.values(user.portfolio).map(item => item.value.marketValue).reduce((prev, next) => prev + next);
+        setAmountChange(totalValue * totalChange / 100)
+
+
       }
 
-      let tokenChangePercent = 0;
+    } catch (err) {
 
-      for (let token of allTokens) {
-        tokenChangePercent += token.value.pricePercentChange1d
-      }
-
-      tokenChangePercent = tokenChangePercent / allTokens.length
-      const totalChange = (tokenChangePercent + nativeChangePercent) / 2
-     
-      setPercentChange(totalChange)
-      const totalValue = Object.values(user.portfolio).map(item => item.value.marketValue).reduce((prev, next) => prev + next);
-      setAmountChange(totalValue * totalChange / 100)
-
-      
     }
-
-  }catch(err){
-
-  }
 
   }, [user])
 
 
 
 
-  if(isNaN(amountChange)){
+  if (isNaN(amountChange)) {
     return null
   }
 
 
   return (
 
-    
+
     <View
       style={{
         alignSelf: 'baseline',
@@ -125,12 +130,12 @@ const MyBalance = ({ hideAvatar }) => {
 
 
   useEffect(() => {
-   try{
-    if (user && user.portfolio) {
-      const totalValue = Object.values(user.portfolio).map(item => item.value.marketValue).reduce((prev, next) => prev + next);
-      setBalance(totalValue)
-    }
-   }catch(err){}
+    try {
+      if (user && user.portfolio) {
+        const totalValue = Object.values(user.portfolio).map(item => item.value.marketValue).reduce((prev, next) => prev + next);
+        setBalance(totalValue)
+      }
+    } catch (err) { }
   }, [user])
   return (
     <ImageBackground
@@ -175,6 +180,34 @@ const MyBalance = ({ hideAvatar }) => {
           </AtomindText>
 
           <PortfolioReporter />
+        </View>
+
+
+        <View>
+
+          <TouchableOpacity
+
+            onPress={() => {
+              navigate('WalletHistory')
+
+            }}
+            style={{
+              borderWidth: 1,
+              borderColor: "#fff",
+              borderRadius: 15,
+              alignItems: 'center',
+              textAlign: "center",
+              justifyContent: 'center',
+              flex: 1,
+
+              marginTop:10,
+              height: 50,
+              width: 50,
+
+            }}
+          >
+            <HistoryIcon fill="#fff" />
+          </TouchableOpacity>
         </View>
       </View>
 

@@ -31,7 +31,8 @@ import {
   SendCrypto,
   ReceiveCrypto,
   StakingDetails,
-  SettingScreen
+  SettingScreen,
+  WalletHistory
 } from '@/Containers'
 import { useEffect } from 'react'
 import VerifyEmail from '@/Containers/Auth/VerifyEmail'
@@ -84,6 +85,14 @@ const NormalRoutes = ({ }) => {
       />
 
 
+      <Stack.Screen
+        name="WalletHistory"
+        component={WalletHistory}
+
+      />
+
+
+
 
 
 
@@ -94,7 +103,7 @@ const NormalRoutes = ({ }) => {
           animationEnabled: false,
         }}
       />
-{/* 
+      {/* 
       <Stack.Screen
         name="LoginScreen"
         component={LoginScreen}
@@ -126,7 +135,7 @@ const NormalRoutes = ({ }) => {
         }}
       />
 
-      
+
       <Stack.Screen
         name="ShowSecretPhrasesScreen"
         component={ShowSecretPhrasesScreen}
@@ -140,27 +149,27 @@ const NormalRoutes = ({ }) => {
 
 
 
-<Stack.Screen
-            name="VerifySecretPharases"
-            component={VerifySecretPharases}
-            options={{
-              headerShown: false,
-              headerMode: 'none',
-              mode: 'modal',
-              transparentCard: true,
-            }}
-          />
+      <Stack.Screen
+        name="VerifySecretPharases"
+        component={VerifySecretPharases}
+        options={{
+          headerShown: false,
+          headerMode: 'none',
+          mode: 'modal',
+          transparentCard: true,
+        }}
+      />
 
-<Stack.Screen
-            name="SuccessWallet"
-            component={SuccessWallet}
-            options={{
-              headerShown: false,
-              headerMode: 'none',
-              mode: 'modal',
-              transparentCard: true,
-            }}
-          />
+      <Stack.Screen
+        name="SuccessWallet"
+        component={SuccessWallet}
+        options={{
+          headerShown: false,
+          headerMode: 'none',
+          mode: 'modal',
+          transparentCard: true,
+        }}
+      />
       {/* <Stack.Screen
         name="UnderstandTheRisk"
         component={UnderstandTheRisk}
