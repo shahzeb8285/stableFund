@@ -3,7 +3,7 @@
   "version": "3.4.5",
   "private": true,
   "scripts": {
-    "connect": "adb -s emulator-5554 reverse tcp:8081 tcp:8081",
+    "connect": "adb -s emulator-5556 reverse tcp:8081 tcp:8081",
     "android": "react-native run-android",
     "ios": "npx react-native run-ios --simulator='iPhone 14'",
     "start": "react-native start",

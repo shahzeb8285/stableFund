@@ -1,6 +1,6 @@
 <manifest
   xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.atominds"
+  package="com.apexfund"
 >
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -18,7 +18,7 @@
         android:name=".SplashActivity"
         android:theme="@style/SplashTheme"
         android:label="@string/app_name"
-      >
+          android:exported="true">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
           <category android:name="android.intent.category.LAUNCHER" />
@@ -30,7 +30,8 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
-        android:windowSoftInputMode="adjustResize">
+        android:windowSoftInputMode="adjustResize"
+          android:exported="true">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
         </intent-filter>

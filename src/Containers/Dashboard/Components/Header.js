@@ -99,7 +99,7 @@ const Header = props => {
               color: '#000',
             }}
           >
-           {/* {name} */} John Doe
+           {name}
           </AtomindText>
           <AtomindText
             style={{

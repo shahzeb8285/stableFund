@@ -1,10 +1,47 @@
 {
   "project_info": {
     "project_number": "172342505143",
+    "firebase_url": "https://stablefundapp-1b640-default-rtdb.firebaseio.com",
     "project_id": "stablefundapp-1b640",
     "storage_bucket": "stablefundapp-1b640.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172342505143:android:334cbc7e331aa88a4ce732",
+        "android_client_info": {
+          "package_name": "com.apexfund"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172342505143-dbo3jtuqmtkc5jhfgv2qan41b0oji022.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvtsOZJgwGxAqVihyXh0q4yYURV20_REo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172342505143-dbo3jtuqmtkc5jhfgv2qan41b0oji022.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "172342505143-9lubjbrhpftflnlpiiri3j4ot8feect2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.StableF"
+              }
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:172342505143:android:db8057b06192fc7c4ce732",
@@ -37,6 +74,13 @@
             {
               "client_id": "172342505143-dbo3jtuqmtkc5jhfgv2qan41b0oji022.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "172342505143-9lubjbrhpftflnlpiiri3j4ot8feect2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.StableF"
+              }
             }
           ]
         }
