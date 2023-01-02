@@ -9,6 +9,7 @@ import Toast from 'react-native-toast-message'
 import { useSelector } from 'react-redux'
 import { Config } from '@/Config'
 import { getDoc } from '@/Firebase/Firestore'
+import { VasernDB } from '../../DB'
 
 
 const StakingDetails = ({ route, navigation }) => {
@@ -27,12 +28,12 @@ const StakingDetails = ({ route, navigation }) => {
     }, [route])
 
 
-    useEffect(()=>{
-        console.log({user})
-    },[user])
+    useEffect(() => {
+        console.log({ user })
+    }, [user])
     const renderClaimButtonText = () => {
 
-        
+
         if (Date.now() / 1000 > data.nextRewardWithdrawTime) {
             return "Harvest Reward"
         }
@@ -42,7 +43,7 @@ const StakingDetails = ({ route, navigation }) => {
 
     const handleHarvestReward = async () => {
 
- 
+
         setHarvestLoading(true)
 
         try {
@@ -62,6 +63,23 @@ const StakingDetails = ({ route, navigation }) => {
                 return
             }
             const tx = await contract.claimReward(investmentId);
+
+
+
+            const txnPayload = {
+                hash: tx.hash,
+                timestamp: Date.now(),
+                actionName: "Claim Reward",
+                chainId: route.params.coin.chainID
+            }
+            try {
+                const { Transaction } = VasernDB
+
+                await Transaction.insert(txnPayload, save = true)
+
+            } catch (err) {
+                console.error(err)
+            }
             Toast.show({
                 type: 'success',
                 text1: 'Success',
@@ -103,12 +121,30 @@ const StakingDetails = ({ route, navigation }) => {
                 return
             }
             const tx = await contract.withdraw(investmentId);
+          
+            const txnPayload = {
+                hash: tx.hash,
+                timestamp: Date.now(),
+                actionName: "Withdraw",
+                chainId: route.params.coin.chainID
+            }
+            try {
+                const { Transaction } = VasernDB
+
+                await Transaction.insert(txnPayload, save = true)
+
+            } catch (err) {
+                console.error(err)
+            }
+
             Toast.show({
                 type: 'success',
                 text1: 'Success',
                 text2: "Transaction Submitted To Blockchain",
             })
 
+
+            
 
         } catch (err) {
             console.log({ err })

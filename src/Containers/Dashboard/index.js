@@ -17,6 +17,7 @@ import WalletFragment from './Fragments/WalletFragment'
 
 import HomeFragment from './Fragments/Home'
 import StakeFragment from './Fragments/StakeFragment'
+import ReportFragment from "./Fragments/ReportFragment"
 import ExchangeFragment from "./Fragments/ExchangeFragment"
 import BuyFragment from "./Fragments/BuyFragment";
 import { useEffect } from 'react'
@@ -330,7 +331,7 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
 
       <View style={{ flex: 1 }}>
         <Tab
-          title="Buy"
+          title="Report"
           icon={
             <BuyIcon
               fill={activeTab == 4 ? theme['color-primary-500'] : '#00000099'}
@@ -397,7 +398,7 @@ const DashboardScreen = props => {
           <WalletFragment navigation={props.navigation}/>
           <StakeFragment />
           <ExchangeFragment />
-          <BuyFragment />
+          <ReportFragment />
         </ViewPager>
       </View>
       <NavigationBar

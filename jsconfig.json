@@ -1,11 +1,10 @@
 {
-    "compilerOptions": {
-        "experimentalDecorators": true,
-
-      "paths": {
-        "@/*": [
-          "./src/*"
-        ]
-      }
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ]
     }
   }
+}

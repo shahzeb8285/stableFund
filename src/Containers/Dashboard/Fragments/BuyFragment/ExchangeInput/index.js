@@ -88,7 +88,8 @@ const ExchangeInput = ({title, label, data, onSelect }) => {
           padding: 12,
         }}
       >
-        <TextInput placeholder="Enter Amount" style={{ fontSize: 18 }} />
+        <TextInput placeholder="Enter Amount" style={{ fontSize: 18,          color:"#000",
+ }} />
 
         <ModalDropdown
           ref={dropRef}

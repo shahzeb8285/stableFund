@@ -1,7 +1,9 @@
 {
+    "compilerOptions": {
+      "experimentalDecorators": true
+    },
     "strict": false,
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
     "skipLibCheck": true
 } 

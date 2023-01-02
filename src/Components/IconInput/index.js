@@ -72,8 +72,8 @@ const IconInput = props => {
           padding: 5,
           flex: 1,
           marginLeft: 10,
+          color:"#000",
           fontFamily: 'DMSans-Regular',
-          // backgroundColor:"red",
           fontWeight: '400',
           fontSize: 16,
         }}

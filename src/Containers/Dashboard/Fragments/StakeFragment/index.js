@@ -35,9 +35,10 @@ import MyInvestments from "./MyInvestments"
 import { getStakingContract } from '@/Utils/Crypto/Transactions'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Config } from '@/Config'
-// import { RealmContext } from '@/DB'
-
-// const { useRealm, useQuery, useObject } = RealmContext;
+// import Transaction from '@/DB/Modals/Transaction'
+// import { addTransaction } from "@/DB"
+import Transaction from '../../../../DB/Modals/Transaction'
+import { VasernDB } from '../../../../DB'
 
 
 const StakingSelector = ({ onCoinSelected }) => {
@@ -241,33 +242,40 @@ const StakeFragment = () => {
     setLoading(true)
 
     try {
-      // const { contract, signer, provider } = await getStakingContract(selectedCoin, user.wallet.privateKey)
-      // const referrerAddress = user.referrerAddress?user.referrerAddress:Config.DEFAULT_REFERRER
-      // const finAmount = Number(inputAmount) * (10 ** selectedCoin.stakingToken.decimals)
-      // const options = { value: finAmount.toString() }
-      // const functionGasFees = await contract.estimateGas.deposit(referrerAddress,options);
-      // const gasPrice = await provider.getGasPrice();
-      // const finalGasPrice = (gasPrice.mul(functionGasFees)).add(BigNumber.from(finAmount.toString()));
-      // const myBalance = await signer.getBalance()
-      // if (myBalance.lt(finalGasPrice)) {
-      //   Toast.show({
-      //     type: 'error',
-      //     text1: 'Error',
-      //     text2: "Insuffient Balance To Pay Gas Fee",
-      //   })
-      //   return
-      // }
-      // const tx = await contract.deposit(referrerAddress, options);
+      const { contract, signer, provider } = await getStakingContract(selectedCoin, user.wallet.privateKey)
+      const referrerAddress = user.referrerAddress ? user.referrerAddress : Config.DEFAULT_REFERRER
+      const finAmount = Number(inputAmount) * (10 ** selectedCoin.stakingToken.decimals)
+      const options = { value: finAmount.toString() }
+      const functionGasFees = await contract.estimateGas.deposit(referrerAddress, options);
+      const gasPrice = await provider.getGasPrice();
+      const finalGasPrice = (gasPrice.mul(functionGasFees)).add(BigNumber.from(finAmount.toString()));
+      const myBalance = await signer.getBalance()
+      if (myBalance.lt(finalGasPrice)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "Insuffient Balance To Pay Gas Fee",
+        })
+        return
+      }
+      const tx = await contract.deposit(referrerAddress, options);
 
+      console.log({tx})
 
       const txnPayload = {
-        hash: "tx.transactionHash",
+        hash: tx.hash,
         timestamp: Date.now(),
-        title: "Stake",
+        actionName: "Stake",
         chainId: selectedCoin.chainID
       }
-      // await addData("Transaction",txnPayload);
-      // await handleAddTransaction(txnPayload)
+      try {
+        const { Transaction } = VasernDB
+
+        await Transaction.insert(txnPayload, save = true)
+
+      } catch (err) {
+        console.error(err)
+      }
       Toast.show({
         type: 'success',
         text1: 'Success',

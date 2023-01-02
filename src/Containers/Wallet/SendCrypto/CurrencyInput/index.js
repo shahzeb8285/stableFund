@@ -140,7 +140,8 @@ const ExchangeInput = ({inputAmount,onInputAmountChange, label, data, selectedCu
 
           }
         }}
-         style={{ fontSize: 18 }} />
+         style={{ fontSize: 18 ,          color:"#000",
+        }} />
 
         <ModalDropdown
           ref={dropRef}

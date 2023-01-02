@@ -54,6 +54,8 @@ const OTPInput = props => {
           alignSelf: 'center',
           textAlignVertical: 'center',
           fontSize: 20,
+          color:"#000",
+
           fontWeight: '400',
           fontFamily: 'DMSans-Regular',
         }}

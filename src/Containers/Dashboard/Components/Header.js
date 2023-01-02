@@ -77,6 +77,7 @@ const Header = props => {
             justifyContent:"center" }}
 >
             {name[0]}
+            
           </AtomindText>
         </TouchableOpacity>
 
@@ -98,7 +99,7 @@ const Header = props => {
               color: '#000',
             }}
           >
-           {name}
+           {/* {name} */} John Doe
           </AtomindText>
           <AtomindText
             style={{

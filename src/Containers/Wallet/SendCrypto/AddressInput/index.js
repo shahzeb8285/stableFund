@@ -40,7 +40,9 @@ const AddressInput = ({onQRClick,onChange }) => {
           padding: 15,
         }}
       >
-        <TextInput placeholder="Enter Address" style={{ fontSize: 22,flex:1 }} onChangeText={(t)=>{
+        <TextInput placeholder="Enter Address" style={{ 
+          fontSize: 22,flex:1,          color:"#000",
+        }} onChangeText={(t)=>{
           if(onChange){
             onChange(t)
           }

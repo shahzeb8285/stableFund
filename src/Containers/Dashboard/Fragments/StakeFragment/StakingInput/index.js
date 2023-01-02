@@ -42,7 +42,8 @@ const StakingInput = ({ label, data, onSelect ,setInputAmount,value}) => {
       >
         <TextInput value={value} 
         placeholder="Enter Amount" 
-        style={{ fontSize: 18 }} 
+        style={{ fontSize: 18,          color:"#000",
+      }} 
         onChangeText={(text)=>{
           setInputAmount(text)
         }} />

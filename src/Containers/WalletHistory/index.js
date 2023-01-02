@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, View, Image, ImageBackground } from 'react-native'
+import React, { useEffect } from 'react'
+import { StyleSheet, View, Image, Text, ImageBackground, TouchableOpacity } from 'react-native'
 import {
   Button,
   Icon,
@@ -9,6 +9,7 @@ import {
   useTheme,
 } from '@ui-kitten/components'
 import Toast from 'react-native-toast-message'
+import moment from "moment"
 
 import { AtomindButton, AtomindText, HyperLink, } from '@/Components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -25,11 +26,120 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { IndexPath, Menu, MenuItem } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
 import { LoadingModal } from '@/Components/LoadingModal'
+import { VasernDB } from '../../DB'
+import { Linking } from "react-native";
+
+import Web3Chains from "@/Chains/Web3";
+
+const TransactionItem = ({ data, }) => {
+
+
+  const getChain = () => {
+    for (let _chain of Web3Chains) {
+      if (_chain.chainId === parseInt(data.chainId)) {
+        return _chain
+      }
+    }
+    return null
+  }
+
+  return <TouchableOpacity
+    onPress={() => {
+      const url = `${getChain().explorer}/tx/${data.hash}`;
+      Linking.openURL(url);
+
+    }}
+    style={{
+      padding: 10,  borderWidth: 1,
+      borderColor: "#d2e6fa",
+      backgroundColor: "#d2e6fa",
+      marginTop: 5,
+      borderRadius: 12
+    }}>
+    <View style={{
+      flexDirection: "row",
+    }}>
+      <View style={{ margin: 2 }}>
+        <Image source={getChain().logo}
+          resizeMode="contain"
+          style={{ weight: 50, height: 50 }} />
+      </View>
+      <View>
+        <View style={{ flexDirection: "row", flex: 1,}}>
+
+
+          <View style={{ margin: 2 }}>
+            <AtomindText style={{ fontSize: 15, fontWeight: "500" }}>
+              Action
+            </AtomindText>
+
+            <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
+              {data.actionName}
+            </AtomindText>
+          </View>
+
+          <View style={{ margin: 2, marginLeft: 10 }}>
+            <AtomindText style={{ fontSize: 15, fontWeight: "500" }}>
+              Date
+            </AtomindText>
+
+            <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
+              {moment(parseInt(data.timestamp / 1000) * 1000).format("DD MMM YYYY hh:mm a")}
+            </AtomindText>
+          </View>
+
+
+        </View>
+
+        <View style={{
+
+          marginTop: 2,
+        }}>
+
+
+
+
+          <View style={{ margin: 2, }}>
+            <AtomindText style={{ fontSize: 15, fontWeight: "500" }}>
+              Transaction Hash
+            </AtomindText>
+
+            <AtomindText style={{ fontSize: 15, fontWeight: "800",paddingRight:5 }}>
+              {data.hash}
+            </AtomindText>
+          </View>
+
+
+
+        </View>
+      </View>
+
+
+    </View>
+  </TouchableOpacity>
+}
 
 
 const WalletHistory = ({ navigation }) => {
 
+  const [data, setData] = useState([])
+  const { Transaction } = VasernDB
 
+  const loadData = async () => {
+
+    const txnData = await Transaction.data();
+    setData(txnData)
+  }
+
+
+
+
+  useEffect(() => {
+    setInterval(() => {
+      loadData()
+    }, 2000)
+    loadData()
+  }, [])
 
 
   return (
@@ -44,8 +154,12 @@ const WalletHistory = ({ navigation }) => {
           />
           <View>
 
+            <ScrollView>
+              {data.map((_data, index) => {
+                return <TransactionItem key={index} data={_data} />
+              })}
+            </ScrollView>
 
-        
 
           </View>
         </ScrollView>
@@ -53,6 +167,8 @@ const WalletHistory = ({ navigation }) => {
     </Layout>
   )
 }
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -63,11 +179,9 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     // justifyContent: 'center',
-    padding: 20,
+    padding: 10,
     backgroundColor: 'white',
-    // alignItems: 'center',
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+
   },
   text: {
     // textAlign: 'center',

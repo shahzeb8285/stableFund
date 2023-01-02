@@ -36,7 +36,7 @@ const OneInvestmentCard = ({ data, selectedCoin, onPress }) => {
                         </AtomindText>
 
                         <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
-                            {data.amount / 1e18} {selectedCoin.stakingToken.name}
+                            {(data.amount / 1e18).toFixed(4)} {selectedCoin.stakingToken.name}
                         </AtomindText>
                     </View>
 

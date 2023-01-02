@@ -23,5 +23,10 @@ export const getDoc=(collectionName,path)=>{
   .get()
 }
 
+export const getCollection=(collectionName)=>{
+   return  firestore()
+  .collection(collectionName)
+  .get()
+}
 
 

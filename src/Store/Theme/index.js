@@ -2,20 +2,20 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const slice = createSlice({
   name: 'theme',
-  initialState: { theme: null, darkMode: null },
+  initialState: { theme: null, darkMode: false },
   reducers: {
     changeTheme: (state, { payload: { theme, darkMode } }) => {
       if (typeof theme !== 'undefined') {
         state.theme = theme
       }
       if (typeof darkMode !== 'undefined') {
-        state.darkMode = darkMode
+        state.darkMode = false
       }
     },
     setDefaultTheme: (state, { payload: { theme, darkMode } }) => {
       if (!state.theme) {
         state.theme = theme
-        state.darkMode = darkMode
+        state.darkMode = false
       }
     },
   },

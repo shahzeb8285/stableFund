@@ -11,7 +11,8 @@
     "buildAndroid": " react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "test": "jest",
     "lint": "eslint .",
-    "type-check": "tsc"
+    "type-check": "tsc",
+    "link": "react-native link "
   },
   "dependencies": {
     "@ethersproject/shims": "^5.7.0",
@@ -41,6 +42,7 @@
     "ethers": "^5.7.2",
     "ethers-multicall": "^0.2.3",
     "events": "^3.3.0",
+    "expo-sqlite-orm": "^1.6.0",
     "gaussian": "^1.2.0",
     "hdkey": "^2.0.1",
     "i18next": "^21.6.16",
@@ -70,10 +72,12 @@
     "react-native-screens": "^3.13.1",
     "react-native-shimmer-placeholder": "^2.0.8",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-sqlite-orm": "^1.0.0",
     "react-native-sqlite-storage": "^6.0.1",
     "react-native-svg": "^13.4.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-svg-icon": "^0.10.0",
+    "react-native-table-component": "^1.2.2",
     "react-native-tags": "^2.2.1",
     "react-native-toast-message": "^2.1.5",
     "react-redux": "^8.0.1",
@@ -81,7 +85,7 @@
     "redux-flipper": "^2.0.1",
     "redux-persist": "^6.0.0",
     "stream-browserify": "^3.0.0",
-    "typeorm": "^0.3.11",
+    "vasern": "^0.3.68",
     "web3": "^1.8.1"
   },
   "devDependencies": {

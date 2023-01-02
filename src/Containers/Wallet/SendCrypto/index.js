@@ -32,6 +32,7 @@ import { useSelector } from 'react-redux'
 import useEtherJS from '@/Ethers'
 import { getERC20Contract } from '@/Utils/Crypto/Transactions'
 import { BigNumber } from '@ethersproject/bignumber'
+import { VasernDB } from '../../../DB'
 
 const ExchangeFragment = ({ route, navigation }) => {
   const [scannerVisible, setScannerVisible] = useState(false)
@@ -141,7 +142,20 @@ const ExchangeFragment = ({ route, navigation }) => {
     }
     const tx = await contract.transfer(receiverAddress, finAmount.toString());
   
-  
+    const txnPayload = {
+      hash: tx.hash,
+      timestamp: Date.now(),
+      actionName: "Transfer Coins",
+      chainId: selectedCurrency.chainId
+  }
+  try {
+      const { Transaction } = VasernDB
+
+      await Transaction.insert(txnPayload, save = true)
+
+  } catch (err) {
+      console.error(err)
+  }
   
   
   }
