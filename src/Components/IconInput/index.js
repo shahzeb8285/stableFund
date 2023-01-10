@@ -14,7 +14,8 @@ const IconInput = props => {
   return (
     <View style={{marginVertical:5}}>
       {props.title?
-      <AtomindText style={{fontWeight:"600",fontSize:16,marginBottom:5}}>
+      <AtomindText style={{fontWeight:"600",
+      fontSize:16,marginBottom:5}}>
         {props.title}
         </AtomindText> : null}
       
