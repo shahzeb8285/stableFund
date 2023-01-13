@@ -1,4 +1,4 @@
-package com.apexfund;
+package com.apexprime;
 
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
@@ -13,7 +13,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "ApexFund";
+    return "ApexPrime";
   }
 
   // for react-native-screens

@@ -4,7 +4,7 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 platform :ios, '14.0'
 
-target 'ApexFund' do
+target 'ApexPrime' do
   use_frameworks!
   config = use_native_modules!
   # flags = get_default_flags()
@@ -38,7 +38,7 @@ target 'ApexFund' do
 
 
 
-  target 'ApexFundTests' do
+  target 'ApexPrimeTests' do
     inherit! :complete
     # Pods for testing
   end
