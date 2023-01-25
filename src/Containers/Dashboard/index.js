@@ -372,6 +372,7 @@ const DashboardScreen = props => {
       setInterval(async ()=>{
        await  _loadStakingData()
       },10000)
+      
       _loadStakingData()
     }
   },[user])

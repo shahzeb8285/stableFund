@@ -1,11 +1,19 @@
 import CONFIG from "./config";
-
-import { JsonRpcProvider, StaticJsonRpcProvider } from "@ethersproject/providers"
+import { JsonRpcProvider,StaticJsonRpcProvider } from "@ethersproject/providers"
 import { getRPC } from "@/Utils/Crypto/Transactions";
+// Import the crypto getRandomValues shim (**BEFORE** the shims)
+import "react-native-get-random-values"
+
+// Import the the ethers shims (**BEFORE** ethers)
+import "@ethersproject/shims"
+
+// Import the ethers library
+import { ethers } from "ethers";
 import { Contract, Provider as MCProvider } from 'ethers-multicall';
 import CoinStakingABI from "./CoinStakingABI.json"
 import TokenStakingABI from "./TokenStakingABI.json"
 import IERC20ABI from "./IERC20.json"
+import Multicall from '@dopex-io/web3-multicall';
 
 
 
@@ -62,26 +70,51 @@ const getStakingCoinBalanceAndAllowance = async (info, userWallet, ethcallProvid
     }
 }
 const loadSingleData = async (info, userWallet) => {
+    const rpc = getRPC(info.chainID)
+    // const {ethers} = etherslib
+   
+    const provider =   new ethers.providers.JsonRpcProvider("https://polygon.llamarpc.com");
+    const multicall = new Multicall({
+        chainId: 1,
+        provider: 'https://eth-mainnet.g.alchemy.com/v2/KnYsap86rTLyYzo-DiDpUxwXgJLsbPsY',
+        defaultBlock: 1000 /* Optional */
+      });
 
-    const provider = new JsonRpcProvider(getRPC(info.chainID));
+
+    try{
+        const balances = await multicall.aggregate([
+            multicall.getEthBalance('0xaEE49A597504e7C4d1F068f33fe255c053cfcb15'),
+          ]);
+        console.log("--------------------------------------------",{qwertyyyyy:balances})
+    }catch(er){
+        console.error("--------------------------------------------","MCProvider",er)
+    }
 
     const ethcallProvider = new MCProvider(provider, info.chainID);
 
+    console.log({chaindId:info.chainID,rpc})
     const ABI = info.isCoin ? CoinStakingABI : TokenStakingABI;
 
     const contract = new Contract(info.contract, ABI);
-
+    
     const totalDepositedCall = contract.totalDeposited();
     const isPausedCall = contract.paused();
     const referrersCountsCall = contract.referralsCount(userWallet);
     const joiningComissionCall = contract.joiningComission(userWallet);
     const totalInvestmentCountsCall = contract.depositLength(userWallet)
-    let [tvl, isPaused, totalReferrers, totalJoiningComissionEarnt, totalInvestmentCounts] = await ethcallProvider.all([totalDepositedCall
+   
+    // console.log({"===========================================":info.contract})
+
+    let [tvl, isPaused, totalReferrers, totalJoiningComissionEarnt, totalInvestmentCounts] = await ethcallProvider.all([
+        totalDepositedCall
         , isPausedCall,
         referrersCountsCall,
         joiningComissionCall,
         totalInvestmentCountsCall
     ]);
+
+
+    // console.log({"===========================================ssaaasssss":tvl})
 
     tvl = tvl.toString();
     totalReferrers = totalReferrers.toString()

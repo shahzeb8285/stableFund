@@ -22,12 +22,11 @@ import { Transaction } from './DB/Modals/TransactionsModal'
 const App = () => {
 
   return <Provider store={store}>
-
+ 
     <PersistGate loading={null} persistor={persistor}>
       <ApplicationProvider {...eva} theme={{  ...theme, }}>
         <FirebaseProvider value={Firebase}>
           <ApplicationNavigator />
-
         </FirebaseProvider>
 
       </ApplicationProvider>
@@ -40,3 +39,4 @@ const App = () => {
 
 
 export default App
+     

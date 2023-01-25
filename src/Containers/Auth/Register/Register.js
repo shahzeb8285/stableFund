@@ -27,13 +27,14 @@ import OnBoardBg from '@/Assets/Images/OnboardBG.png'
 import Toast from 'react-native-toast-message'
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 
 const RegisterScreen = ({ navigation }) => {
   const theme = useTheme()
 
-  const [email,setEmail] = useState("shahzeb8285@gmail.com")
-  const [password1,setPassword1] = useState("BirdCom@123")
-  const [password2,setPassword2] = useState("BirdCom@123")
+  const [email,setEmail] = useState("")
+  const [password1,setPassword1] = useState("")
+  const [password2,setPassword2] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [refereeCode, setrefereeCode] = useState()
 
@@ -180,6 +181,10 @@ const handleSignup=async()=>{
                 }}
               />
 
+<BarPasswordStrengthDisplay
+          password={password1}
+        />
+
               <IconInput
                 title="Confirm Password"
                 icon={<PasswordIcon />}
@@ -193,6 +198,8 @@ const handleSignup=async()=>{
                   setShowPassword(!showPassword)
                 }}
               />
+
+
             </View>
           </View>
         </ScrollView>

@@ -7,17 +7,32 @@ import { View } from "react-native"
 import Toast from 'react-native-toast-message'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { useSelector } from 'react-redux'
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+
 
 export  default  CopyReferralLink = ()=>{
 
   const user = useSelector(state => state.user.data)
 
+  async function buildLink() {
+    const link = await dynamicLinks().buildLink({
+      link: 'https://invertase.io',
+      // domainUriPrefix is created in your Firebase console
+      domainUriPrefix: 'https://xyz.page.link',
+      // optional setup which updates Firebase analytics campaign
+      // "banner". This also needs setting up before hand
+      analytics: {
+        campaign: 'banner',
+      },
+    });
+  
+    return link;
+  }
+    const handleClickToCopy = async()=>{
 
+        // const link = await buildLink()
 
-    const handleClickToCopy = ()=>{
-
-        const link = "handleClickToCopy"
-
+        const link = `https://apexprime.app/refer?code=${user.myReferralCode}`
         Toast.show({
             type: 'success',
             text1: 'Copied!',

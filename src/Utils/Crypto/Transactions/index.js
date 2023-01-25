@@ -20,6 +20,8 @@ export const getRPC = (chainId) =>{
 
 export const getERC20Contract =async(chainId,privateKey,contractAddress)=>{
     const rpc = getRPC(chainId)
+
+    
     const provider = new JsonRpcProvider(
         rpc
       );

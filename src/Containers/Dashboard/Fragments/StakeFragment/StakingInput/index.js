@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   Modal,
   Image,
+  TextInput,
   View,
 } from 'react-native'
 import { Icon } from 'react-native-elements'
-import { TextInput } from 'react-native-gesture-handler'
+// import { TextInput } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 
 import ModalDropdown from 'react-native-modal-dropdown'
@@ -40,7 +41,7 @@ const StakingInput = ({ label, data, onSelect ,setInputAmount,value}) => {
           padding: 12,
         }}
       >
-        <TextInput value={value} 
+        <TextInput value={value.toString()} 
         placeholder="Enter Amount" 
         style={{ fontSize: 18,          color:"#000",
       }} 

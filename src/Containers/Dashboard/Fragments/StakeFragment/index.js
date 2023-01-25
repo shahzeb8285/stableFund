@@ -51,8 +51,19 @@ const StakingSelector = ({ onCoinSelected }) => {
     onCoinSelected(stakingCoins[0].id)
   }, [])
 
-  useEffect(() => {
-  }, [selectedChain])
+
+
+  // useEffect(()=>{
+  //   if(selectedChain){
+      // onCoinSelected(selectedChain)
+  //   }
+  // },[selectedChain])
+
+
+
+
+
+
 
 
   const renderButtonText = rowData => {
@@ -63,9 +74,11 @@ const StakingSelector = ({ onCoinSelected }) => {
   const _dropdown_2_renderRow = rowData => {
     return (
       <TouchableOpacity
-        style={{ flex: 1 }}
+        style={{ flex: 1,marginTop:2,paddingTop:2 }}
         onPress={() => {
           setSelectedChain(rowData)
+          onCoinSelected(rowData.id)
+
           dropRef.current.hide()
         }}>
         <View style={[{
@@ -82,18 +95,20 @@ const StakingSelector = ({ onCoinSelected }) => {
               height: 30,
             }}
             mode="stretch"
-            source={rowData.logo}
+            source={rowData.stakingToken.image}
           />
 
           <AtomindText
             style={{ fontWeight: '600', marginHorizontal: 5 }}
-          >{`${rowData.name}`}</AtomindText>
+          >{`${rowData.stakingToken.name}`}</AtomindText>
         </View>
       </TouchableOpacity>
     )
   }
 
   function _dropdown_4_onSelect(idx, value) {
+
+    console.log("_dropdown_4_onSelect",idx,value)
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
   }
@@ -153,7 +168,7 @@ const StakingSelector = ({ onCoinSelected }) => {
         }}
         category="h5"
       >
-        Select Coin
+        Select Coin 1
       </AtomindText>
       <View style={[{
         flexDirection: 'row',
@@ -260,7 +275,7 @@ const StakeFragment = () => {
       }
       const tx = await contract.deposit(referrerAddress, options);
 
-      console.log({tx})
+
 
       const txnPayload = {
         hash: tx.hash,

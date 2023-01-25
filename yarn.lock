@@ -1183,6 +1183,11 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
+"@dopex-io/web3-multicall@^0.1.9":
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/@dopex-io/web3-multicall/-/web3-multicall-0.1.9.tgz#da609bc4a5b8b821d2a5c50a38fb2d5c10c6cb8c"
+  integrity sha512-oLs2x0bdBTvrY83ZzO4v1PXf1If475qoctS5mMSxDtuBwwSd7N8kv/BR+liZF++5r/f+TAfbNJbqsH8NrtQh0w==
+
 "@egjs/hammerjs@^2.0.17":
   version "2.0.17"
   resolved "https://registry.npmjs.org/@egjs/hammerjs/-/hammerjs-2.0.17.tgz"
@@ -1776,12 +1781,12 @@
   resolved "https://registry.npmjs.org/@eva-design/processor/-/processor-2.1.1.tgz"
   integrity sha512-lbxZLm5ARhuk/wxWkaiWhw5XeZ+Xcp1JGCjcZl+S5rUbLppfp4U47jfq861EY27BP1dpQ5PyTVFCbl5eHlRFdg==
 
-"@expo/config-plugins@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-5.0.1.tgz#66bc8d15785bdcd3598e466344f8c0518390179d"
-  integrity sha512-1OfnsOrfeSkB0VZfT01UjQ5Uq6p+yYbq8yNkj0e99K/6NLHpyvIxj+5tZIV0nQXgkOcqBIABL2uA7lwB8CkaBQ==
+"@expo/config-plugins@^5.0.4":
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/@expo/config-plugins/-/config-plugins-5.0.4.tgz#216fea6558fe66615af1370de55193f4181cb23e"
+  integrity sha512-vzUcVpqOMs3h+hyRdhGwk+eGIOhXa5xYdd92yO17RMNHav3v/+ekMbs7XA2c3lepMO8Yd4/5hqmRw9ZTL6jGzg==
   dependencies:
-    "@expo/config-types" "^46.0.0"
+    "@expo/config-types" "^47.0.0"
     "@expo/json-file" "8.2.36"
     "@expo/plist" "0.0.18"
     "@expo/sdk-runtime-versions" "^1.0.0"
@@ -1797,10 +1802,10 @@
     xcode "^3.0.1"
     xml2js "0.4.23"
 
-"@expo/config-types@^46.0.0":
-  version "46.0.2"
-  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-46.0.2.tgz#191f225ebfcbe624868ddc40efae79593f948dd8"
-  integrity sha512-PXkmOgNwRyBfgVT1HmFZhfh3Qm7WKKyV6mk3/5HJ/LzPh1t+Zs2JrWX8U2YncTLV1QzV7nV8tnkyvszzqnZEzQ==
+"@expo/config-types@^47.0.0":
+  version "47.0.0"
+  resolved "https://registry.yarnpkg.com/@expo/config-types/-/config-types-47.0.0.tgz#99eeabe0bba7a776e0f252b78beb0c574692c38d"
+  integrity sha512-r0pWfuhkv7KIcXMUiNACJmJKKwlTBGMw9VZHNdppS8/0Nve8HZMTkNRFQzTHW1uH3pBj8jEXpyw/2vSWDHex9g==
 
 "@expo/json-file@8.2.36":
   version "8.2.36"
@@ -2471,12 +2476,12 @@
   resolved "https://registry.npmjs.org/@react-native-community/eslint-plugin/-/eslint-plugin-1.2.0.tgz"
   integrity sha512-o6aam+0Ug1xGK3ABYmBm0B1YuEKfM/5kaoZO0eHbZwSpw9UzDX4G5y4Nx/K20FHqUmJHkZmLvOUFYwN4N+HqKA==
 
-"@react-native-firebase/app@^16.2.0":
-  version "16.2.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-16.2.0.tgz#67b8910e6847db0ba122fbff7736aff2bedf8503"
-  integrity sha512-EokTfI8ANqtpBSdf3fxKsBQ00JR9lFQZ8bwaTkjqdazVnGeVFq4RX8XrL3hHB+WwZp67Ml2Kbt0i1+85Wj76qg==
+"@react-native-firebase/app@^16.5.1":
+  version "16.5.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-16.5.1.tgz#4e1360bd9441b74b2f8028e20497cabc3c0fd8c1"
+  integrity sha512-7hfbGolGeGk6UNhVBnkltn2xWUuAZcR9RzRL8yn2kjt7XzjRYwOXom7iIRYw0onrZDorzupOhPGV90eJM3L5XA==
   dependencies:
-    "@expo/config-plugins" "^5.0.1"
+    "@expo/config-plugins" "^5.0.4"
     opencollective-postinstall "^2.0.1"
     superstruct "^0.6.2"
 
@@ -2484,6 +2489,13 @@
   version "16.2.0"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/auth/-/auth-16.2.0.tgz#dd7064bbe6b0ac5d5b86c5f10d34c4e6e2f02e4c"
   integrity sha512-1oh5Tbqj2MPfGLIR4AasQ2AmVnRUwlZlc+x861WGWIe63l3TO8AmUoWq8HBCxOokZGTP8i1YUrxAGwOrF1aaLA==
+
+"@react-native-firebase/dynamic-links@^16.5.1":
+  version "16.5.1"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/dynamic-links/-/dynamic-links-16.5.1.tgz#43e7e5a62fecdf064e59294de3a936050cf6d626"
+  integrity sha512-tgii+kgN3pFLoZFshO8u+FNug4C3wY8phPs5aqEDNLcOcu5j2neS4ZTtmSKMsHMXt6Ssxoh1L6MtFI5oumXQOw==
+  dependencies:
+    "@expo/config-plugins" "^5.0.4"
 
 "@react-native-firebase/firestore@^16.3.0":
   version "16.3.0"
@@ -7976,7 +7988,7 @@ lodash.truncate@^4.4.2:
   resolved "https://registry.npmjs.org/lodash.truncate/-/lodash.truncate-4.4.2.tgz"
   integrity sha1-WjUNoLERO4N+z//VgSy+WNbq4ZM=
 
-lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.7.0:
+lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.21, lodash@^4.17.4, lodash@^4.7.0:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -10166,6 +10178,23 @@ react-native-pager-view@^5.4.25:
   resolved "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-5.4.25.tgz"
   integrity sha512-3drrYwaLat2fYszymZe3nHMPASJ4aJMaxiejfA1V5SK3OygYmdtmV2u5prX7TnjueJzGSyyaCYEr2JlrRt4YPg==
 
+react-native-password-strength-checker@^1.0.13:
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/react-native-password-strength-checker/-/react-native-password-strength-checker-1.0.13.tgz#4cd6acd3e43bd1dca3c5b055fdc32c5d332ce6d6"
+  integrity sha512-6OeERKvV5W3YKy/ce9iMGxhusIvr9Q3F73ObHiy5GXjShlHuTcj/52GlVn1LXMvlXL4UqigkiUD9FKEwskhUcQ==
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+    zxcvbn "^4.4.2"
+
+react-native-password-strength-meter@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-password-strength-meter/-/react-native-password-strength-meter-0.0.5.tgz#7e5d38a844b2221937f893f0d80a8ffa575159b0"
+  integrity sha512-MRKcs0+xkS1ufTVNJsvcXJy30A8IXxZpfY8NYCuAovup8gHYsRP/jUOf/T55dBGBuaSbz7FHFDp2LmV8cBktkw==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-speedometer "^1.0.0"
+
 react-native-pin-view@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npmjs.org/react-native-pin-view/-/react-native-pin-view-3.0.2.tgz"
@@ -10232,6 +10261,13 @@ react-native-snap-carousel@^3.9.1:
   dependencies:
     prop-types "^15.6.1"
     react-addons-shallow-compare "15.6.2"
+
+react-native-speedometer@^1.0.0:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-speedometer/-/react-native-speedometer-1.0.5.tgz#228b0710d7cbf257b07ae4615825eda86f746d3d"
+  integrity sha512-vloJbiIATVFBMayTZXE9Zf5GD8daBJsUxU83xxNo/vynfX84omu3nMgwYxpAqwO4oDOI1Nj86pFzPkU7kPqGIA==
+  dependencies:
+    prop-types "^15.6.2"
 
 react-native-sqlite-orm@^1.0.0:
   version "1.0.0"
@@ -12785,3 +12821,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zxcvbn@^4.4.2:
+  version "4.4.2"
+  resolved "https://registry.yarnpkg.com/zxcvbn/-/zxcvbn-4.4.2.tgz#28ec17cf09743edcab056ddd8b1b06262cc73c30"
+  integrity sha512-Bq0B+ixT/DMyG8kgX2xWcI5jUvCwqrMxSFam7m0lAf78nf04hv6lNCsyLYdyYTrCVMqNDY/206K7eExYCeSyUQ==
