@@ -18,7 +18,7 @@ import {
 } from '@/Components'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import EmailIcon from '@/Assets/SVG/EmailIcon'
 import ReferralIcon from "@/Assets/SVG/ReferralIcon"
 import PasswordIcon from '@/Assets/SVG/PasswordIcon'
@@ -28,18 +28,67 @@ import Toast from 'react-native-toast-message'
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 
 const RegisterScreen = ({ navigation }) => {
   const theme = useTheme()
 
-  const [email,setEmail] = useState("")
-  const [password1,setPassword1] = useState("")
-  const [password2,setPassword2] = useState("")
+  const [email, setEmail] = useState("")
+  const [password1, setPassword1] = useState("")
+  const [password2, setPassword2] = useState("")
   const [showPassword, setShowPassword] = useState(false)
-  const [refereeCode, setrefereeCode] = useState()
+  const [refereeCode, setrefereeCode] = useState("")
 
 
-  const [isLoading,setLoading] = useState(false)
+
+  function getParameterByName(name, url) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+      results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  }
+
+  const handleDynamicLink = link => {
+    console.log({ link })
+
+    handleLink(link)
+
+
+
+  };
+
+  const handleLink = (link) => {
+    console.log("handleDynamicLink", link)
+
+    if (link && link.url) {
+      const code = getParameterByName("code", link.url)
+      console.log("handleDynamicLinkCode", { code })
+
+      setrefereeCode(code)
+    }
+  }
+
+
+  useEffect(() => {
+    const unsubscribe1 = dynamicLinks().onLink(handleDynamicLink);
+
+
+    (async () => {
+      const link = await dynamicLinks().getInitialLink();
+      console.log("linkkk", link)
+      handleLink(link)
+
+    })()
+    // When the component is unmounted, remove the listener
+    return () => {
+      unsubscribe1()
+
+    };
+  }, []);
+
+  const [isLoading, setLoading] = useState(false)
 
   const validateEmail = (_email) => {
     return _email.match(
@@ -48,85 +97,85 @@ const RegisterScreen = ({ navigation }) => {
   };
 
 
-  const validatePassword=(pw)=> {
+  const validatePassword = (pw) => {
 
-    return /[A-Z]/       .test(pw) &&
-           /[a-z]/       .test(pw) &&
-           /[0-9]/       .test(pw) &&
-           /[^A-Za-z0-9]/.test(pw) &&
-           pw.length > 4;
+    return /[A-Z]/.test(pw) &&
+      /[a-z]/.test(pw) &&
+      /[0-9]/.test(pw) &&
+      /[^A-Za-z0-9]/.test(pw) &&
+      pw.length > 4;
 
-}
-
-
-const errorToast = (msg)=>{
-  Toast.show({
-    type: 'error',
-    text1: 'Error',
-    text2: msg,
-  })
-}
-const validateFields = ()=>{
-  if(!validateEmail(email)){
-  
-    errorToast('Invalid Email Address')
-    return
-  }
-
-  if(password1 !== password2){
-
-    
-    errorToast("Passwords Don't Match")
-
-    return 
-  }
-
-  if(!validatePassword(password1)){
-    
-    errorToast("Please Enter a Strong Password")
-    return
   }
 
 
-  return true
-}
-  
-function generateUID() {
+  const errorToast = (msg) => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error',
+      text2: msg,
+    })
+  }
+  const validateFields = () => {
+    if (!validateEmail(email)) {
 
-  var firstPart = (Math.random() * 46656) | 0;
-  var secondPart = (Math.random() * 46656) | 0;
-  firstPart = ("000" + firstPart.toString(36)).slice(-3);
-  secondPart = ("000" + secondPart.toString(36)).slice(-3);
-  return firstPart + secondPart;
-}
-const handleSignup=async()=>{
-
-    if(!validateFields()){
+      errorToast('Invalid Email Address')
       return
     }
- 
+
+    if (password1 !== password2) {
+
+
+      errorToast("Passwords Don't Match")
+
+      return
+    }
+
+    if (!validatePassword(password1)) {
+
+      errorToast("Please Enter a Strong Password")
+      return
+    }
+
+
+    return true
+  }
+
+  function generateUID() {
+
+    var firstPart = (Math.random() * 46656) | 0;
+    var secondPart = (Math.random() * 46656) | 0;
+    firstPart = ("000" + firstPart.toString(36)).slice(-3);
+    secondPart = ("000" + secondPart.toString(36)).slice(-3);
+    return firstPart + secondPart;
+  }
+  const handleSignup = async () => {
+
+    if (!validateFields()) {
+      return
+    }
+
 
 
     setLoading(true)
 
-    try{
+    try {
 
 
-     await AsyncStorage.setItem('refereeCode', refereeCode.replaceAll(" ","").toUpperCase());
-     await AsyncStorage.setItem('myReferralCode', generateUID().toUpperCase());
+      await AsyncStorage.setItem('refereeCode', refereeCode.replaceAll(" ", "").toUpperCase());
+      await AsyncStorage.setItem('myReferralCode', generateUID().toUpperCase());
 
-     await auth()
-      .createUserWithEmailAndPassword(email, password1)
+      await auth()
+        .createUserWithEmailAndPassword(email, password1)
 
-    }catch(err){
+    } catch (err) {
       if (err.code === 'auth/email-already-in-use') {
         errorToast("That email address is already in use!")
       }
-  
+
       if (err.code === 'auth/invalid-email') {
         errorToast("That email address is invalid!")
       }
-  
+
     }
     setLoading(false)
 
@@ -145,11 +194,11 @@ const handleSignup=async()=>{
             />
 
             <View style={{ paddingHorizontal: 25, marginTop: 20 }}>
-              
+
               <IconInput
                 title="Enter Email"
                 icon={<EmailIcon />}
-                onChangeText={(text)=>{
+                onChangeText={(text) => {
                   setEmail(text)
                 }}
                 textContentType="emailAddress"
@@ -157,19 +206,20 @@ const handleSignup=async()=>{
               />
 
 
-<IconInput
+              <IconInput
                 title="Referral Code"
                 icon={<ReferralIcon />}
-                onChangeText={(text)=>{
+                value={refereeCode}
+                onChangeText={(text) => {
                   setrefereeCode(text)
                 }}
                 placeholder="Enter Referral Code"
-                // leftIcon={require('../../../Assets/Icons/eye.png')}
-             
+              // leftIcon={require('../../../Assets/Icons/eye.png')}
+
               />
               <IconInput
                 title="Password"
-                onChangeText={(text)=>{
+                onChangeText={(text) => {
                   setPassword1(text)
                 }}
                 icon={<PasswordIcon />}
@@ -181,14 +231,14 @@ const handleSignup=async()=>{
                 }}
               />
 
-<BarPasswordStrengthDisplay
-          password={password1}
-        />
+              <BarPasswordStrengthDisplay
+                password={password1}
+              />
 
               <IconInput
                 title="Confirm Password"
                 icon={<PasswordIcon />}
-                onChangeText={(text)=>{
+                onChangeText={(text) => {
                   setPassword2(text)
                 }}
                 placeholder="Enter Password"

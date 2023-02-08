@@ -26,6 +26,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ScrollView } from 'react-native-gesture-handler'
 import CarouselCards from './HomeCarousel'
 import WalletCard from '../../Components/WalletCard'
+import DollarCoin from "@/Assets/SVG/DollarCoin"
+import TotalInvestor from "@/Assets/SVG/TotalInvestor"
+import RewardIcon from "@/Assets/SVG/RewardIcon"
+
 
 const Tab = ({ text, isActive, onClick }) => {
   const theme = useTheme()
@@ -79,7 +83,29 @@ const HomeFragment = ({ navigation }) => {
   const [isWallet, setWallet] = useState(true)
   const coins = useSelector(state => state.coins.data)
 
+  const overViewData = [
+    {
+      name: "Total Invested",
+      value: 1000,
+      icon:<DollarCoin/>,
+      bg:"#E8F0FF"
+    },
 
+    {
+      name: "total Users",
+      value: 21,
+      icon:<TotalInvestor/>,
+      bg:"#EEE8FF"
+    },
+    {
+      name: "total Rewards",
+      value: 1000,
+      icon:<RewardIcon />,
+      bg:"#E8F0FF"
+    },
+
+  ]
+ 
   return (
     <ScrollView style={{ flex: 1, backgroundColor: '#F5F5F5' }}>
       <View
@@ -110,7 +136,7 @@ const HomeFragment = ({ navigation }) => {
         </View>
 
         <View style={{paddingVertical:10}}>
-        <CarouselCards/>
+        <CarouselCards data={overViewData}/>
 
         <CopyReferralLink/>
        </View>

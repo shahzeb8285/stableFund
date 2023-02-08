@@ -124,7 +124,6 @@ const ReportFragment = ({ route, navigation }) => {
     }
 
     setStats(finalStats)
-    console.log({ stats })
 
     setLoading(false)
 

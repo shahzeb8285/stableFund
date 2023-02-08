@@ -211,7 +211,8 @@ const NormalRoutes = ({ }) => {
       } else if (!user.wallet) {
         return <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="CreateWalletScreen" component={CreateWalletScreen} />
-
+          <Stack.Screen name="Dashboard" component={DashboardScreen} />
+          
           <Stack.Screen
             name="ShowSecretPhrasesScreen"
             component={ShowSecretPhrasesScreen}

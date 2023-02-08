@@ -23,16 +23,15 @@ const StakingDetails = ({ route, navigation }) => {
 
 
     useEffect(() => {
+
+        console.log(JSON.stringify(route))
         setData(route.params.data)
         setCoin(route.params.coin.stakingToken)
     }, [route])
 
 
-    useEffect(() => {
-        console.log({ user })
-    }, [user])
     const renderClaimButtonText = () => {
-
+        
 
         if (Date.now() / 1000 > data.nextRewardWithdrawTime) {
             return "Harvest Reward"
@@ -158,6 +157,21 @@ const StakingDetails = ({ route, navigation }) => {
         }
 
     }
+
+
+
+    const isStakingFinished = ()=>{
+        const endDate =  moment(data.timestamp*1000).add(50,"day").unix()
+        return Date.now() / 1000 < endDate || data.isFinished
+    }
+    if(!coin  || !data){
+        return <View/>
+    }
+
+
+
+
+
     return (
         <View
             style={{
@@ -222,11 +236,11 @@ const StakingDetails = ({ route, navigation }) => {
 
                         <View style={{ margin: 2, width: "50%" }}>
                             <AtomindText style={{ fontSize: 15, fontWeight: "500" }}>
-                                Withdraw Date
+                                Withdraw Date 
                             </AtomindText>
 
                             <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
-                                {moment((Number(data.timestamp) + (Config.ONE_DAY * 30)) * 1000).format("DD MMM YYYY hh:mm a")}
+                                {moment(Number(data.timestamp)*1000).add(50,"day").format("DD MMM YYYY hh:mm a")}
                             </AtomindText>
                         </View>
 
@@ -318,7 +332,7 @@ const StakingDetails = ({ route, navigation }) => {
                             handleWithdraw()
                         }} isLoading={isWithdrawLoading} text={data.isFinished ? "Closed" : "Withdraw"}
                             disabled={
-                                (Date.now() / 1000 < moment((Number(data.timestamp) + (Config.ONE_DAY * 30)) * 1000).unix()) || data.isFinished
+                               isStakingFinished()
                             } />
 
                     </View>

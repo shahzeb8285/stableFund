@@ -9,6 +9,7 @@ import * as eva from '@eva-design/eva';
 import { default as theme } from './Theme/theme.json'; // <-- Import app theme
 import Toast from 'react-native-toast-message';
 
+import messaging from '@react-native-firebase/messaging';
 
 import 'node-libs-react-native/globals.js';
 
@@ -16,9 +17,22 @@ import 'node-libs-react-native/globals.js';
 
 import './Translations'
 import Firebase, { FirebaseProvider } from './Firebase/FirebaseContext'
-import { Transaction } from './DB/Modals/TransactionsModal'
+// import { Transaction } from './DB/Modals/TransactionsModal'
 // const {RealmProvider} = RealmContext;
 
+
+// Get the notification
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+    // Extract the body
+    let message_body = remoteMessage.notification.body;
+    // Extract the title
+    let message_title = remoteMessage.notification.title;
+    // Extract the notification image 
+
+   
+    // Send a notification alert
+    Alert.alert(message_title, message_body);
+});
 const App = () => {
 
   return <Provider store={store}>

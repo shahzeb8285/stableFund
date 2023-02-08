@@ -7,39 +7,13 @@ import { View } from 'react-native'
 import Carousel, { Pagination } from 'react-native-snap-carousel'
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from './StakingCarouselItem'
 import AtomindShimmer from '@/Components/AtomindShimmer'
-import DollarCoin from "@/Assets/SVG/DollarCoin"
-import TotalInvestor from "@/Assets/SVG/TotalInvestor"
 
-import RewardIcon from "@/Assets/SVG/RewardIcon"
 
-const CarouselCards = () => {
+const StakingCarousel = ({data=[]}) => {
   const [index, setIndex] = React.useState(0)
   const isCarousel = React.useRef(null)
   // const [data, setData] = useState([])
   const stakingToken = "BNB"
-  const data = [
-    {
-      name: "Total Invested",
-      value: 1000,
-      icon:<DollarCoin/>,
-      bg:"#E8F0FF"
-    },
-
-    {
-      name: "total Users",
-      value: 21,
-      icon:<TotalInvestor/>,
-      bg:"#EEE8FF"
-    },
-    {
-      name: "total Rewards",
-      value: 1000,
-      icon:<RewardIcon />,
-      bg:"#E8F0FF"
-    },
-
-  ]
- 
 
 
 
@@ -80,4 +54,4 @@ const CarouselCards = () => {
   )
 }
 
-export default CarouselCards
+export default StakingCarousel

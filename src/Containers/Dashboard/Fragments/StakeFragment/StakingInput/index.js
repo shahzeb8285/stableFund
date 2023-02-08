@@ -11,7 +11,6 @@ import {
   TextInput,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
 // import { TextInput } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 

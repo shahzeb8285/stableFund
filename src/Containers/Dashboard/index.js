@@ -308,7 +308,7 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
         />
       </View>
 
-      <View style={{ flex: 1 }}>
+      {/* <View style={{ flex: 1 }}>
         <Tab
           title="Exchange"
           icon={
@@ -327,14 +327,14 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
             onTabClick(3)
           }}
         />
-      </View>
+      </View> */}
 
       <View style={{ flex: 1 }}>
         <Tab
           title="Report"
           icon={
             <BuyIcon
-              fill={activeTab == 4 ? theme['color-primary-500'] : '#00000099'}
+              fill={activeTab == 3 ? theme['color-primary-500'] : '#00000099'}
               preserveAspectRatio="xMidYMin"
               style={{
                 alignContent: 'center',
@@ -343,9 +343,9 @@ const NavigationBar = ({ activeTab, onTabClick }) => {
               }}
             />
           }
-          isActive={activeTab == 4}
+          isActive={activeTab == 3}
           onClick={() => {
-            onTabClick(4)
+            onTabClick(3)
           }}
         />
       </View>

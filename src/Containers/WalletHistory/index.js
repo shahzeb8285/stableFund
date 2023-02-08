@@ -140,7 +140,7 @@ const WalletHistory = ({ navigation }) => {
     }, 2000)
     loadData()
   }, [])
-
+  
 
   return (
     <Layout style={[styles.container, { backgroundColor: '#fff' }]}>
@@ -155,7 +155,7 @@ const WalletHistory = ({ navigation }) => {
           <View>
 
             <ScrollView>
-              {data.map((_data, index) => {
+              {data.reverse().map((_data, index) => {
                 return <TransactionItem key={index} data={_data} />
               })}
             </ScrollView>

@@ -20,7 +20,10 @@ import { getSearchResults } from '@/Utils/Coingecko'
 import { useEffect } from 'react'
 import OneTokenSearchRow from '@/Components/OneTokenSearchRow'
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
+import DollarCoin from "@/Assets/SVG/DollarCoin"
+import TotalInvestor from "@/Assets/SVG/TotalInvestor"
 
+import RewardIcon from "@/Assets/SVG/RewardIcon"
 import LinearGradient from 'react-native-linear-gradient'
 import { Select, SelectItem } from '@ui-kitten/components'
 import Dropdown from '@/Components/Dropdown'
@@ -32,14 +35,14 @@ import Web3Chains from '@/Chains/Web3'
 import { useSelector } from 'react-redux'
 import { Card } from '@ui-kitten/components';
 import MyInvestments from "./MyInvestments"
-import { getStakingContract } from '@/Utils/Crypto/Transactions'
+import { getStakingContract, getERC20Contract } from '@/Utils/Crypto/Transactions'
 import { BigNumber } from '@ethersproject/bignumber'
 import { Config } from '@/Config'
 // import Transaction from '@/DB/Modals/Transaction'
 // import { addTransaction } from "@/DB"
 import Transaction from '../../../../DB/Modals/Transaction'
 import { VasernDB } from '../../../../DB'
-
+import Web3 from "web3"
 
 const StakingSelector = ({ onCoinSelected }) => {
   const dropRef = useRef()
@@ -55,7 +58,7 @@ const StakingSelector = ({ onCoinSelected }) => {
 
   // useEffect(()=>{
   //   if(selectedChain){
-      // onCoinSelected(selectedChain)
+  // onCoinSelected(selectedChain)
   //   }
   // },[selectedChain])
 
@@ -74,7 +77,7 @@ const StakingSelector = ({ onCoinSelected }) => {
   const _dropdown_2_renderRow = rowData => {
     return (
       <TouchableOpacity
-        style={{ flex: 1,marginTop:2,paddingTop:2 }}
+        style={{ flex: 1, marginTop: 2, paddingTop: 2 }}
         onPress={() => {
           setSelectedChain(rowData)
           onCoinSelected(rowData.id)
@@ -100,7 +103,7 @@ const StakingSelector = ({ onCoinSelected }) => {
 
           <AtomindText
             style={{ fontWeight: '600', marginHorizontal: 5 }}
-          >{`${rowData.stakingToken.name}`}</AtomindText>
+          >{`${rowData.stakingToken.additionalName}`}</AtomindText>
         </View>
       </TouchableOpacity>
     )
@@ -108,7 +111,6 @@ const StakingSelector = ({ onCoinSelected }) => {
 
   function _dropdown_4_onSelect(idx, value) {
 
-    console.log("_dropdown_4_onSelect",idx,value)
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
   }
@@ -208,7 +210,7 @@ const StakeFragment = () => {
   const [inputAmount, setInputAmount] = useState(0)
   const [investments, setInvestments] = useState([])
   const [selectedCoin, setSelectedCoin] = useState();
-
+  const [requestedApproval,setApprovedRequested] = useState(false)
   useEffect(() => {
     if (Array.isArray(stakingCoins) && selectedCoinId) {
       const item = stakingCoins.find((coin) => coin.id === selectedCoinId)
@@ -221,16 +223,32 @@ const StakeFragment = () => {
 
 
 
-  // const realm = useRealm();
-  // const handleAddTransaction = useCallback(
-  //   (data) => {
+  const overviewData = [
+    {
+      name: "Total Invested",
+      value: selectedCoin? selectedCoin.tvl:0,
+      icon:<DollarCoin/>,
+      bg:"#E8F0FF"
+    },
 
-  //     realm.write(() => {
-  //       realm.create('Transaction', data);
-  //     });
-  //   },
-  //   [realm],
-  // );
+    {
+      name: "total Users",
+      value: selectedCoin? selectedCoin.totalInvestor:0,
+      icon:<TotalInvestor/>,
+      bg:"#EEE8FF"
+    },
+    {
+      name: "total Rewards",
+      value: selectedCoin? selectedCoin.totalBonus:0,
+      icon:<RewardIcon />,
+      bg:"#E8F0FF"
+    },
+
+  ]
+ 
+
+
+
 
 
   const handleDeposit = async () => {
@@ -254,26 +272,44 @@ const StakeFragment = () => {
       return
     }
 
+    if (Number(inputAmount) < 100) {
+      Toast.show({
+        type: 'error',
+        text1: 'Error',
+        text2: `Minimum Stake Amount is ${selectedCoin.stakingToken.symbol}`,
+      })
+      return
+    }
     setLoading(true)
 
     try {
       const { contract, signer, provider } = await getStakingContract(selectedCoin, user.wallet.privateKey)
       const referrerAddress = user.referrerAddress ? user.referrerAddress : Config.DEFAULT_REFERRER
-      const finAmount = Number(inputAmount) * (10 ** selectedCoin.stakingToken.decimals)
-      const options = { value: finAmount.toString() }
-      const functionGasFees = await contract.estimateGas.deposit(referrerAddress, options);
-      const gasPrice = await provider.getGasPrice();
-      const finalGasPrice = (gasPrice.mul(functionGasFees)).add(BigNumber.from(finAmount.toString()));
-      const myBalance = await signer.getBalance()
-      if (myBalance.lt(finalGasPrice)) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: "Insuffient Balance To Pay Gas Fee",
-        })
-        return
+      let finAmount =  BigNumber.from(inputAmount.toString())
+      .mul(BigNumber.from((10 ** selectedCoin.stakingToken.decimals).toString()))
+      .toString();
+
+      //  finAmount = ( Number(inputAmount) * (10 ** selectedCoin.stakingToken.decimals)).toString()
+      const options = { value:selectedCoin.isCoin? finAmount.toString():0 }
+      // let functionGasFees;
+      // if(selectedCoin.isCoin){
+      //   functionGasFees = await contract.estimateGas.deposit(referrerAddress, options);
+      // }else{
+      //   functionGasFees = await contract.estimateGas.deposit(referrerAddress,finAmount, options);
+      // }
+     
+     
+  
+
+      let tx;
+
+      if(selectedCoin.isCoin){
+  
+        tx= await contract.deposit(referrerAddress, options);
+
+      }else{
+        tx= await contract.deposit(referrerAddress,finAmount, options);
       }
-      const tx = await contract.deposit(referrerAddress, options);
 
 
 
@@ -289,6 +325,7 @@ const StakeFragment = () => {
         await Transaction.insert(txnPayload, save = true)
 
       } catch (err) {
+        alert(err)
         console.error(err)
       }
       Toast.show({
@@ -301,7 +338,7 @@ const StakeFragment = () => {
 
 
     } catch (err) {
-      console.log({ err })
+      console.error({ err })
     }
     setLoading(false)
   }
@@ -310,14 +347,57 @@ const StakeFragment = () => {
   const handleApprove = async () => {
     setLoading(true)
     try {
+      const { contract, signer, provider } = await getERC20Contract(selectedCoin.chainID, user.wallet.privateKey, selectedCoin.stakingToken.address);
 
-    } catch (err) { }
+      const functionGasFees = await contract.estimateGas.approve(selectedCoin.contract, "115792089237316195423570985008687907853269984665640564039457584007913129639935");
+      const gasPrice = await provider.getGasPrice();
+      const finalGasPrice = (gasPrice.mul(functionGasFees));
+      const myBalance = await signer.getBalance()
+      if (myBalance.lt(finalGasPrice)) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "Insuffient Balance To Pay Gas Fee",
+        })
+        
+      }else{
+        const tx = await contract.approve(selectedCoin.contract, "115792089237316195423570985008687907853269984665640564039457584007913129639935");
+        const txnPayload = {
+          hash: tx.hash,
+          timestamp: Date.now(),
+          actionName: "Approve Contract",
+          chainId: selectedCoin.chainID
+        }
+        try {
+          const { Transaction } = VasernDB
+  
+          await Transaction.insert(txnPayload, save = true)
+  
+        } catch (err) {
+          console.error("ransaction Submitted ",err)
+        }
+        Toast.show({
+          type: 'success',
+          text1: 'Success',
+          text2: "Transaction Submitted To Blockchain",
+        })
+
+        setApprovedRequested(true)
+      }
+     
+
+    } catch (err) {
+      console.error("Eeeeeee", err)
+    }
     setLoading(false)
 
   }
 
 
   const requiresApproval = () => {
+    if(requestedApproval){
+      return true
+    }
     if (selectedCoin.stakingToken.address === "0x0000000000000000000000000000000000000000") {
       return false
     } else if (selectedCoin.stakingToken.allowance > 0) {
@@ -520,7 +600,7 @@ const StakeFragment = () => {
 
 
 
-                  <StakingCarousel />
+                  <StakingCarousel data={overviewData}/>
                   {/* <AtomindButton text="Deposit" /> */}
 
 
@@ -541,7 +621,7 @@ const StakeFragment = () => {
                           fontWeight: '700',
                           fontSize: 12, color: "#000"
                         }}>
-                          Total Invested
+                          Total Invested 
                         </AtomindText>
 
                         <AtomindText style={{ fontWeight: '500', fontSize: 15 }}>

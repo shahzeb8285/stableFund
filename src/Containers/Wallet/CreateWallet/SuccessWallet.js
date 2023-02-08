@@ -45,7 +45,7 @@ const SuccessWallet = ({ route, navigation }) => {
       wallet
     }
   dispatch(setGlobalUser(userObj) )
-    // navigation.navigate("Dashboard")
+  navigation.navigate("Dashboard")
   }
 
 

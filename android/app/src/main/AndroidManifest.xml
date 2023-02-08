@@ -35,6 +35,10 @@
           android:exported="true">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.BROWSABLE"/>
+
+            <data android:host="apexprime.page.link" android:scheme="http"/>
+            <data android:host="apexprime.page.link" android:scheme="https"/>
         </intent-filter>
       </activity>
     </application>

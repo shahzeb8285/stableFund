@@ -67,7 +67,7 @@ const OneInvestmentCard = ({ data, selectedCoin, onPress }) => {
                         </AtomindText>
 
                         <AtomindText style={{ fontSize: 15, fontWeight: "800" }}>
-                            {moment(data.timestamp * 1000).add(1, "month").format("DD MMM hh:mm a")}
+                            {moment(data.timestamp * 1000).add(50, "day").format("DD MMM hh:mm a")}
                         </AtomindText>
                     </View>
                 </View>
