@@ -852,7 +852,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StableF/Info.plist;
+				INFOPLIST_FILE = "StableF/GoogleService-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = StableFunds;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -880,7 +880,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = StableF/Info.plist;
+				INFOPLIST_FILE = "StableF/GoogleService-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = StableFunds;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
