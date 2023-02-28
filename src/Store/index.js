@@ -16,11 +16,18 @@ import { api } from '@/Services/api'
 import theme from './Theme'
 
 import coinsSlice from './Slices/coins/coins'
+import userSlice from './Slices/User/user'
+import stakingSlice from './Slices/Staking/staking'
+const userPersistConfig = {
+  key: 'user',
+  storage: AsyncStorage,
+}
 const reducers = combineReducers({
   theme,
   coins:coinsSlice,
-  
+  user:persistReducer(userPersistConfig, userSlice),
   api: api.reducer,
+  staking:stakingSlice
 })
 
 const persistConfig = {
@@ -28,6 +35,7 @@ const persistConfig = {
   storage: AsyncStorage,
   whitelist: ['theme'],
 }
+
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 

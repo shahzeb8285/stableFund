@@ -33,11 +33,6 @@ const VerifySecretPharases = ({ route, navigation }) => {
 
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    // const obj = CreateNewWallet()
-    // {"address": "0x575ED829B43802B3298E2b3565Ce5C762f4F7715", "mnemonic": ["bitter", "fatal", "omit", "food", "fox", "swift", "action", "autumn", "scatter", "able", "proof", "deal"], "privateKey": "0xb00dfce6c39304c32c166147fb9d7a8dd926cb51abb7fa438928cdf019dfd0e7"}
-    // bitter fatal omit food fox swift action autumn scatter able proof deal
-  }, [])
   const handleSubmit = async () => {
     setError('')
 

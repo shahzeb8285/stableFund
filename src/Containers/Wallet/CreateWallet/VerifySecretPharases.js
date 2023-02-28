@@ -175,6 +175,19 @@ const VerifySecretPharases = ({ route, navigation }) => {
             <AtomindButton
               text="Continue"
               onPress={() => {
+                handleSubmit()
+
+                
+              }}
+            >
+              Submit
+            </AtomindButton>
+
+
+            <AtomindButton
+            isSecondary
+              text="Verify Later"
+              onPress={() => {
                 // handleSubmit()
 
                 navigation.navigate('SuccessWallet', {

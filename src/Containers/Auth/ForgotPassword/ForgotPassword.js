@@ -40,6 +40,7 @@ const ForgotPassword = ({ navigation }) => {
             />
 
             <Button
+              
               style={[
                 styles.loginButton,
                 { backgroundColor: theme['color-primary-default'] },

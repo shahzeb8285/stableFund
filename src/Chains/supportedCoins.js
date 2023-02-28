@@ -1,10 +1,8 @@
 const supportedCoins = [
 
-   "BTC",
    "ETH",
    "BNB",
    "MATIC",
-   ""
 ]
 
 

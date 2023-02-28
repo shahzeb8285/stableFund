@@ -6,7 +6,7 @@ const AtomindText = props => {
   return (
     <Text style={[{
       fontFamily: 'DMSans-Regular',
-     
+      color:"#000",
       alignItems: "center",
     // backgroundColor:"red" 
     },{...props.style}]}>

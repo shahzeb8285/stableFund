@@ -25,9 +25,29 @@ import {
 } from '@/Components'
 import { useEffect } from 'react'
 import LottieView from 'lottie-react-native'
+import { useDispatch, useSelector } from 'react-redux'
+import { setGlobalUser } from '@/Store/Slices/User/user'
 
 const SuccessWallet = ({ route, navigation }) => {
   const theme = useTheme()
+  const [wallet, setWallet] = useState()
+  const user = useSelector(state => state.user.data)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    setWallet(JSON.parse(route.params.wallet))
+  }, [route.params])
+
+
+
+  const handleSubmit = ()=>{
+    const userObj = {
+      ...user,
+      wallet
+    }
+  dispatch(setGlobalUser(userObj) )
+  navigation.navigate("Dashboard")
+  }
+
 
   return (
     <BaseScreen isWhiteBg>
@@ -108,7 +128,8 @@ const SuccessWallet = ({ route, navigation }) => {
             marginHorizontal: 25,
           }}
           onPress={() => {
-            navigation.navigate('Dashboard')
+            // navigation.navigate('Dashboard')
+            handleSubmit()
           }}
        />
         

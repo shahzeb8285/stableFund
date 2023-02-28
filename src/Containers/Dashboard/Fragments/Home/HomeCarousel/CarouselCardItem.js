@@ -6,6 +6,9 @@ import { LineGraph, AxisLabel } from 'react-native-graph'
 import gaussian from 'gaussian'
 import { LineChart } from 'react-native-svg-charts'
 import { useNavigation } from '@react-navigation/native'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 
 export const SLIDER_WIDTH = Dimensions.get('window').width + 80
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.6)
@@ -39,12 +42,22 @@ export function generateSinusGraphData(length) {
 const SMALL_POINTS = generateSinusGraphData(100)
 const CarouselCardItem = ({ item, index }) => {
   const navigation = useNavigation()
+  const [myBalance,setBalance] = useState(0)
+  const user = useSelector(state=>state.user.data)
+  useEffect(()=>{
+    if(user && user.portfolio){
+      const chain = user.portfolio[item.chainId]
+      if(chain){
+        setBalance( chain.nativeBalance.balance)
+      }
 
+    }
+  },[item,user])
   return (
     <TouchableOpacity
-      
+
       onPress={() => {
-        navigation.navigate("Market",item)
+        navigation.navigate("Market", item)
       }}
       style={[
         styles.container,
@@ -63,27 +76,56 @@ const CarouselCardItem = ({ item, index }) => {
         }}
       >
         <View style={{ flex: 1 }}>
-          <AtomindText
-            style={{
-              marginHorizontal: 15,
-              marginTop: 10,
-              fontSize: 20,
-              fontWeight: '800',
-            }}
-          >
-            {item.name}
-          </AtomindText>
-          {item.price ? (
+
+          <View style={{
+            flexDirection: "row",
+            marginTop: 10,
+            textAlign:"center",
+            marginHorizontal:20,
+            
+            justifyContent: "flex-start"
+          }}>
             <AtomindText
               style={{
-                color: item.primaryColor,
-                marginHorizontal: 15,
-                marginVertical: 2,
                 fontSize: 20,
                 fontWeight: '800',
               }}
             >
-              ${item.price} {item.symbol.toUpperCase()}
+              {item.symbol.toUpperCase()}
+
+            </AtomindText>
+
+
+
+            <AtomindText style={{
+              fontSize: 12,
+              marginLeft:5,
+              textAlign:"center",
+              justifyContent:"center",
+              alignContent:"center",
+              alignItems:"center",
+              alignSelf:"center",
+              fontWeight: '800',
+              color: item.primaryColor,
+
+            }}>
+              ($ {item.price})
+            </AtomindText>
+
+          </View>
+
+
+          {item.price ? (
+            <AtomindText
+              style={{
+                color: item.primaryColor,
+                marginHorizontal:20,
+                marginVertical: 2,
+                fontSize: 18,
+                fontWeight: '800',
+              }}
+            >
+             {myBalance.toFixed(6)} {item.symbol.toUpperCase()}
             </AtomindText>
           ) : null}
         </View>
@@ -132,23 +174,23 @@ const CarouselCardItem = ({ item, index }) => {
           }}
         />
       ) : // <LineGraph
-      //   points={SMALL_POINTS}
-      //   animated={true}
-      //   // enableFadeInMask
-      //   // SelectionDot={SelectionDot}
-      //   style={{
-      //     // width: 500,
-      //     height: 250,
-      //     width: '100%',
-      //     marginLeft: 5,
-      //   }}
-      //   // indicatorPulsating
-      //   gradientFillColors={['#7476df5D', '#7476df4D', '#7476df00']}
-      //   color="#4484B2"
-      //   enablePanGesture={true}
-      // />
+        //   points={SMALL_POINTS}
+        //   animated={true}
+        //   // enableFadeInMask
+        //   // SelectionDot={SelectionDot}
+        //   style={{
+        //     // width: 500,
+        //     height: 250,
+        //     width: '100%',
+        //     marginLeft: 5,
+        //   }}
+        //   // indicatorPulsating
+        //   gradientFillColors={['#7476df5D', '#7476df4D', '#7476df00']}
+        //   color="#4484B2"
+        //   enablePanGesture={true}
+        // />
 
-      null}
+        null}
     </TouchableOpacity>
   )
 }

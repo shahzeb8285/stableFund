@@ -1,5 +1,5 @@
 export default [
-    "btc",
     "eth",
-    "bnb"
+    "bnb",
+    "matic-network"
 ]

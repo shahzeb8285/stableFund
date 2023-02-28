@@ -21,3 +21,6 @@ export {default as SearchBox} from "./SearchBox"
 export {default as AtomindText} from "./AtomindText"
 
 export {default as MenuItem} from "./MenuItem"
+
+export {default as CopyReferralLink} from "./CopyReferralLink"
+export {default as LoadingModal} from "./LoadingModal"

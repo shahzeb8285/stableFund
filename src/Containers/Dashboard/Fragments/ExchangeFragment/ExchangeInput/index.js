@@ -10,7 +10,6 @@ import {
   Image,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
 import { TextInput } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -64,7 +63,6 @@ const ExchangeInput = ({ label, data, onSelect }) => {
   function _dropdown_4_onSelect(idx, value) {
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
-    console.debug(`idx=${idx}, value='${value}'`)
   }
   function _dropdown_2_renderSeparator(rowID) {
     if (rowID == Web3Chains.length) return null
@@ -89,7 +87,8 @@ const ExchangeInput = ({ label, data, onSelect }) => {
           padding: 12,
         }}
       >
-        <TextInput placeholder="Enter Amount" style={{ fontSize: 18 }} />
+        <TextInput placeholder="Enter Amount" style={{ fontSize: 18,          color:"#000",
+ }} />
 
         <ModalDropdown
           ref={dropRef}

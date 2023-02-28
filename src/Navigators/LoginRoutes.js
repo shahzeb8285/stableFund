@@ -4,31 +4,19 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import {
-  CreatePasscode,
-  CreateWalletScreen,
-  DashboardScreen,
+
   EmailLogin,
   OnBoard,
   ForgotPassword,
-  LoginScreen,
-  PhoneLogin,
+
   PhoneRegisteration,
   RegisterScreen,
-  RestoreWallet,
-  ShowSecretPhrasesScreen,
-  SuccessWallet,
-  UnderstandTheRisk,
+
   RegisterVerifyOtp,
-  VerifySecretPharases,
   WelcomeScreen1,
   LoginVerifyOtp,
   WelcomeScreen2,
-  MyProfile,
-  MarketScreen,
-  ExchangeFragment,
-  BuyFragment,
-  SendCrypto,
-  ReceiveCrypto,
+ 
 } from '@/Containers'
 
 const LoginRoutes = () => {

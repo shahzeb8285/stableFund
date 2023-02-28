@@ -10,40 +10,75 @@ import {
   Image,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
+
 import { TextInput } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 
 import ModalDropdown from 'react-native-modal-dropdown'
 import Web3Chains from '@/Chains/Web3'
 
-const ExchangeInput = ({ label, data, onSelect }) => {
-  const dropRef = useRef()
-  const [selectedChain, setSelectedChain] = useState(Web3Chains[0])
 
-  const DEMO_OPTIONS_2 = [
-    { name: 'Rex', age: 30 },
-    { name: 'Mary', age: 25 },
-    { name: 'John', age: 41 },
-    { name: 'Jim', age: 22 },
-    { name: 'Susan', age: 52 },
-    { name: 'Brent', age: 33 },
-    { name: 'Alex', age: 16 },
-    { name: 'Ian', age: 20 },
-    { name: 'Phil', age: 24 },
-  ]
+
+function validURL(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+    '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
+    '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+    '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+    '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+    '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return !!pattern.test(str);
+}
+
+
+const ExchangeInput = ({inputAmount,onInputAmountChange, label, data, selectedCurrency , onSelectCurrency }) => {
+  const dropRef = useRef()
 
   const renderButtonText = rowData => {
     const { name, age } = rowData
     return `${name} - ${age}`
   }
 
+
+  const getChain=(data)=>{
+    if(!data.isCoin){
+      let chainName = "";
+      if(data.chainId ==1){
+
+        chainName = "Ethereum"
+      } else  if(data.chainId ==56){
+
+        chainName = "Binance"
+      }  else  if(data.chainId ==137){
+
+        chainName = "Polygon"
+      } 
+
+      if(chainName){
+        return `(${chainName})`
+
+      }
+    }
+  }
+
+  const getLogo =(obj)=>{
+
+    if(obj.logo){
+      return obj.logo
+    }else if (obj.iconUrl){
+      return {uri:obj.iconUrl}
+    }
+  
+  }
   const _dropdown_2_renderRow = rowData => {
     return (
       <TouchableOpacity
         style={{ flex: 1 }}
         onPress={() => {
-          setSelectedChain(rowData)
+          if(onSelectCurrency){
+            onSelectCurrency(rowData)
+
+          }
+          // setSelectedChain(rowData)
           dropRef.current.hide()
         }}
       >
@@ -51,12 +86,18 @@ const ExchangeInput = ({ label, data, onSelect }) => {
           <Image
             style={styles.dropdown_logo}
             mode="stretch"
-            source={rowData.logo}
+            source={getLogo(rowData)}
           />
 
           <AtomindText
             style={{ fontWeight: '600', marginHorizontal: 5 }}
-          >{`${rowData.name}`}</AtomindText>
+          >
+            
+            {`${rowData.name} `}
+            {getChain(rowData)}
+          
+          
+          </AtomindText>
         </View>
       </TouchableOpacity>
     )
@@ -65,7 +106,6 @@ const ExchangeInput = ({ label, data, onSelect }) => {
   function _dropdown_4_onSelect(idx, value) {
     // BUG: alert in a modal will auto dismiss and causes crash after reload and touch. @sohobloo 2016-12-1
     //alert(`idx=${idx}, value='${value}'`);
-    console.debug(`idx=${idx}, value='${value}'`)
   }
   function _dropdown_2_renderSeparator(rowID) {
     if (rowID == Web3Chains.length) return null
@@ -90,13 +130,23 @@ const ExchangeInput = ({ label, data, onSelect }) => {
           padding: 12,
         }}
       >
-        <TextInput placeholder="Enter Amount" style={{ fontSize: 18 }} />
+        <TextInput placeholder="Enter Amount"
+        value={inputAmount}
+        keyboardType="numeric"
+        onChangeText={(e)=>{
+          if(onInputAmountChange){
+            onInputAmountChange(e)
+
+          }
+        }}
+         style={{ fontSize: 18 ,          color:"#000",
+        }} />
 
         <ModalDropdown
           ref={dropRef}
           defaultValue={''}
           textStyle={styles.dropdown_text}
-          options={Web3Chains}
+          options={data?data:Web3Chains}
           onSelect={(idx, value) => _dropdown_4_onSelect(idx, value)}
           renderButtonText={rowData => renderButtonText(rowData)}
           renderRow={_dropdown_2_renderRow.bind(this)}
@@ -117,12 +167,14 @@ const ExchangeInput = ({ label, data, onSelect }) => {
               <Image
                 style={styles.dropdown_logo}
                 mode="stretch"
-                source={selectedChain.logo}
+                source={getLogo(            selectedCurrency?selectedCurrency:Web3Chains[0]
+                  )}
               />
 
               <AtomindText
                 style={{ fontWeight: '600', marginHorizontal: 5 }}
-              >{`${selectedChain.name}`}</AtomindText>
+              >{`${(            selectedCurrency?selectedCurrency:Web3Chains[0]
+                ).name}`}</AtomindText>
 
               {/* <Image
                 style={{ tintColor: '#000', height: 15, width: 15 }}

@@ -1,16 +1,10 @@
 const DEFAULTCOINS = [
-  {
-    id: 'bitcoin',
-    symbol: 'btc',
-    name: 'Bitcoin',
-    image: 'https://assets.coingecko.com/coins/images/1/large/bitcoin.png',
-    supported: false,
-    primaryColor: '#F7931A',
-    secondaryColor: '#FFE8CC',
-  },
+
   {
     id: 'ethereum',
     symbol: 'eth',
+    coingeckoId: 'ethereum',
+    chainId:1,
     name: 'Ethereum',
     supported: true,
     primaryColor: '#24A3CD',
@@ -21,13 +15,30 @@ const DEFAULTCOINS = [
   {
     id: 'binancecoin',
     symbol: 'bnb',
+    coingeckoId: 'binancecoin',
+    chainId:56,
+
     name: 'BNB',
     supported: true,
     primaryColor: '#FFCA00',
-    secondaryColor: '#FEEEAF',
+    secondaryColor: '#f7ecc1',
 
     image:
       'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1644979850',
+  },
+
+
+  {
+    id: 'polygon',
+    symbol: 'MATIC',
+    coingeckoId: 'matic-network',
+    chainId:137,
+
+    name: 'MATIC',
+    supported: true,
+    primaryColor: '#a57bec',
+    secondaryColor: '#d1c2e9',
+    image:'https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png'
   },
   // {
   //   id: 'litecoin',

@@ -10,11 +10,18 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const IconInput = props => {
   const theme = useTheme()
+  const [value,setValue] = useState("")
+  useEffect(()=>{
+    if(props.value){
+      setValue(props.value)
+    }
+  },[props])
   const [isFocussed, setFocussed] = useState(false)
   return (
     <View style={{marginVertical:5}}>
       {props.title?
-      <AtomindText style={{fontWeight:"600",fontSize:16,marginBottom:5}}>
+      <AtomindText style={{fontWeight:"600",
+      fontSize:16,marginBottom:5}}>
         {props.title}
         </AtomindText> : null}
       
@@ -53,6 +60,7 @@ const IconInput = props => {
       /> */}
       {props.icon}
       <TextInput
+        value={value}
         secureTextEntry={props.textContentType === 'password'}
         onFocus={f => {
           setFocussed(true)
@@ -60,14 +68,21 @@ const IconInput = props => {
         onBlur={() => {
           setFocussed(false)
         }}
+        onChangeText={(e)=>{
+          setValue(e)
+          if(props.onChangeText){
+            props.onChangeText(e)
+          }
+        }}
+   
         textContentType={props.textContentType}
         placeholder={props.placeholder}
         style={{
           padding: 5,
           flex: 1,
           marginLeft: 10,
+          color:"#000",
           fontFamily: 'DMSans-Regular',
-          // backgroundColor:"red",
           fontWeight: '400',
           fontSize: 16,
         }}

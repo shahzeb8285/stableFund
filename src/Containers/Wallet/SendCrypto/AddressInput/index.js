@@ -10,7 +10,6 @@ import {
   Image,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
 import { TextInput } from 'react-native-gesture-handler'
 import LinearGradient from 'react-native-linear-gradient'
 
@@ -18,7 +17,7 @@ import ModalDropdown from 'react-native-modal-dropdown'
 import Web3Chains from '@/Chains/Web3'
 import ScanIcon from '@/Assets/SVG/ScanIcon'
 
-const AddressInput = ({onQRClick }) => {
+const AddressInput = ({onQRClick,onChange }) => {
  
 
 
@@ -33,7 +32,6 @@ const AddressInput = ({onQRClick }) => {
     >
       <View
         style={{
-          // flex:1,
           borderRadius: 5,
           flexDirection: 'row',
           justifyContent: 'space-between',
@@ -41,9 +39,17 @@ const AddressInput = ({onQRClick }) => {
           padding: 15,
         }}
       >
-        <TextInput placeholder="Enter Address" style={{ fontSize: 22 }} />
+        <TextInput placeholder="Enter Address" style={{ 
+          fontSize: 22,flex:1,          color:"#000",
+        }} onChangeText={(t)=>{
+          if(onChange){
+            onChange(t)
+          }
+        }} />
 
-        <TouchableOpacity onPress={() => {
+        <TouchableOpacity 
+        style={{alignSelf:"center"}}
+        onPress={() => {
           onQRClick()
         }}>
           <ScanIcon/>

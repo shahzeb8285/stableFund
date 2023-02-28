@@ -9,7 +9,6 @@ import {
   Image,
   View,
 } from 'react-native'
-import { Icon } from 'react-native-elements'
 
 import ModalDropdown from 'react-native-modal-dropdown'
 import AtomindText from '../AtomindText'

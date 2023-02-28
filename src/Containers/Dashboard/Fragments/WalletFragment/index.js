@@ -25,7 +25,41 @@ const WalletFragment = ({ navigation }) => {
   const [searchResults, setSearchResults] = useState([])
   const [loading, setLoading] = useState(false)
   const coins = useSelector(state => state.coins.data)
+  const [currency,setCurrency] =useState([])
   const isLoadingCoinData = useSelector(state => state.coins.isLoading)
+  const user = useSelector(state=>state.user.data)
+useEffect(()=>{
+  if(currency){
+    const ids = []
+    for(let ff of currency){
+      ids.push(ff.coingeckoId)
+    }
+  }
+},[currency])
+  useEffect(()=>{
+    let allTokens = []
+    if(coins){
+      for(let coin of coins){
+        const obj = {
+          ...coin,
+          isCoin:true
+        }
+        allTokens.push(obj)
+      }
+    }
+
+
+    if(user && user.portfolio){
+
+      for(let chain of Object.values(user.portfolio)){
+          allTokens = [...allTokens, ...chain.tokenBalances]
+      }
+          
+    }
+
+    setCurrency(allTokens)
+  },[user,coins])
+
 
   // const makeSearch = async query => {
   //   if (query === '') {
@@ -106,7 +140,7 @@ const WalletFragment = ({ navigation }) => {
           ) : (
             <View>
               <AtomindText style={{ fontSize: 20, fontWeight: '500' }}>
-                All Coins
+               Your Portfolio
               </AtomindText>
 
               <AtomindShimmer
@@ -118,11 +152,11 @@ const WalletFragment = ({ navigation }) => {
                 visible={!isLoadingCoinData}
               >
                 <ScrollView>
-                  {coins.map(coin => {
+                  {currency.map(coin => {
                     return (
                       <OneTokenSearchRow
                         coin={coin}
-                        key={coin.id}
+                        key={coin.coingeckoId}
                         onClick={() => {
                           goToMarketScreen(coin)
                         }}

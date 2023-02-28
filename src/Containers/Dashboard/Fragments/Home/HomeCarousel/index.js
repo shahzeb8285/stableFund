@@ -15,6 +15,7 @@ const CarouselCards = () => {
   const [data, setData] = useState([])
   const coins = useSelector(state => state.coins.data)
   const isLoadingCoinData = useSelector(state => state.coins.isLoading)
+  const user = useSelector(state => state.user.data)
 
   useEffect(() => {
     if (coins) {

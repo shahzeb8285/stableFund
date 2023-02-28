@@ -15,14 +15,15 @@ const Header = (props) => {
         flex: 1,
       }}
     >
-      <BackButton
+      {props.hideBackButton?null:  <BackButton
               onPress={() => {
                   if (props.onBack) {
                     props.onBack()
                   }
         
         }}
-      />
+      />}
+    
 
       <AtomindText
         style={{

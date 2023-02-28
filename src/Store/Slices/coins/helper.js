@@ -18,12 +18,12 @@ export const fetchCoinData = async () => {
   const defaultCoinData = []
 
   for (let defaultCoin of defaultCoins) {
-    ids.push(defaultCoin.id)
+    ids.push(defaultCoin.coingeckoId)
   }
 
   const nativeCoinsPrices = await getCryptoPrices(ids)
   for (let defaultCoin of defaultCoins) {
-    const data = nativeCoinsPrices[defaultCoin.id]
+    const data = nativeCoinsPrices[defaultCoin.coingeckoId]
     const priceHistory = await loadPriceHistory(defaultCoin.symbol)
     let price = null
     let change24Hours = null

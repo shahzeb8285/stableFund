@@ -34,6 +34,7 @@ const SearchBox = ({ height, width, mode, onSearchQuery }) => {
           fontWeight: '400',
           fontFamily: 'DMSans-Regular',
           flex:1,
+
           color: '#00000099',
           fontSize: 14,
         }}

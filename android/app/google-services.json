@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "172342505143",
-    "project_id": "stablefundapp-1b640",
-    "storage_bucket": "stablefundapp-1b640.appspot.com"
+    "project_number": "1104912266",
+    "project_id": "apexprime-75e66",
+    "storage_bucket": "apexprime-75e66.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:172342505143:android:db8057b06192fc7c4ce732",
+        "mobilesdk_app_id": "1:1104912266:android:153001190688b3d8f83273",
         "android_client_info": {
-          "package_name": "com.atominds"
+          "package_name": "com.apexprime"
         }
       },
       "oauth_client": [
         {
-          "client_id": "172342505143-eqld79dve86okc0d6fhv8acdmleaor2s.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.atominds",
-            "certificate_hash": "4c7fd5c633697df8cf2cbbb7a5122d064ea48543"
-          }
-        },
-        {
-          "client_id": "172342505143-dbo3jtuqmtkc5jhfgv2qan41b0oji022.apps.googleusercontent.com",
+          "client_id": "1104912266-kruvnr7o463acmi6ont7fab6784j6hqu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCvtsOZJgwGxAqVihyXh0q4yYURV20_REo"
+          "current_key": "AIzaSyC1d3Zb1rMRbMqH1y6UKsmE66RmZSER9zo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "172342505143-dbo3jtuqmtkc5jhfgv2qan41b0oji022.apps.googleusercontent.com",
+              "client_id": "1104912266-kruvnr7o463acmi6ont7fab6784j6hqu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

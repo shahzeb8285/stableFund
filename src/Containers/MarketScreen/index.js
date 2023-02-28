@@ -29,6 +29,8 @@ import EmailIcon from '@/Assets/SVG/EmailIcon'
 import PasswordIcon from '@/Assets/SVG/PasswordIcon'
 import Header from '@/Components/Header'
 import OnBoardBg from '@/Assets/Images/OnboardBG.png'
+import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
 
 /**
  * Use any valid `name` property from eva icons (e.g `github`, or `heart-outline`)
@@ -38,6 +40,30 @@ import OnBoardBg from '@/Assets/Images/OnboardBG.png'
 const MarketScreen = ({ navigation, route }) => {
   const theme = useTheme()
   const data = route.params
+  const [myBalance,setBalance] = useState(0)
+  const [ price,setPrice] = useState(0)
+
+  const user = useSelector(state=>state.user.data)
+
+  
+  useEffect(()=>{
+    if(user && user.portfolio){
+      if(data.isCoin){
+          const chain = user.portfolio[data.chainId ]
+          setBalance(chain.nativeBalance.balance)
+          setPrice(data.price)
+
+      }else{
+
+        setBalance(data.balance)
+        setPrice(data.price)
+
+      }
+    
+
+    }
+  },[data,user])
+
 
   const Shadow = props => {
     return (
@@ -53,6 +79,32 @@ const MarketScreen = ({ navigation, route }) => {
         strokeOpacity={0.3}
       />
     )
+  }
+
+  const renderChart = ()=>{
+    if(data.priceHistory){
+      return  <LineChart
+
+      contentInset={{ top: 20, bottom: 20 }}
+      style={{
+        height: 180,
+      }}
+      showGrid
+      curve={shape.curveLinear}
+      data={data.priceHistory}
+      svg={{
+        stroke: data.primaryColor,
+        
+        strokeWidth: '2.5',
+      }}
+    >
+      <Shadow />
+    </LineChart>
+    }
+
+    return <AtomindText style={{fontSize:25,fontWeight:"700",textAlign:"center",marginTop:15}}>
+      Chart Data not Available
+    </AtomindText>
   }
   return (
     <View
@@ -123,7 +175,7 @@ const MarketScreen = ({ navigation, route }) => {
                       marginTop: 10,
                     }}
                   >
-                    ${data.price}
+                    ${price}
                   </AtomindText>
                 </View>
               </View>
@@ -170,9 +222,10 @@ const MarketScreen = ({ navigation, route }) => {
                     paddingVertical: 4,
                   }}
                 >
-                  {data.change24Hours}%
+                  {data && data.change24Hours?parseFloat( data.change24Hours).toFixed(2):null}%
+                
                 </AtomindText>
-                <AtomindText
+                {/* <AtomindText
                   style={{
                     paddingHorizontal: 5,
                     fontSize: 15,
@@ -182,8 +235,8 @@ const MarketScreen = ({ navigation, route }) => {
                   }}
                 >
                   |
-                </AtomindText>
-                <AtomindText
+                </AtomindText> */}
+                {/* <AtomindText
                   style={{
                     fontSize: 15,
                     fontWeight: '600',
@@ -197,31 +250,11 @@ const MarketScreen = ({ navigation, route }) => {
                 >
                   $
                   {((Number(data.price) * data.change24Hours) / 100).toFixed(2)}
-                </AtomindText>
+                </AtomindText> */}
               </View>
             </View>
 
-            <LineChart
-              // numberOfTicks={4}
-
-              contentInset={{ top: 20, bottom: 20 }}
-              style={{
-                height: 180,
-                // backgroundColor:"red"
-              }}
-              showGrid
-              curve={shape.curveLinear}
-              data={data.priceHistory}
-              svg={{
-                stroke: data.primaryColor,
-                // fillOpacity: 0.5,
-                // fill: "red",
-                // fillRule:"evenodd",
-                strokeWidth: '2.5',
-              }}
-            >
-              <Shadow />
-            </LineChart>
+           {renderChart()}
           </View>
         </View>
       </ScrollView>
@@ -244,11 +277,11 @@ const MarketScreen = ({ navigation, route }) => {
         <AtomindText
           style={{ fontSize: 20, fontWeight: '800', color: data.primaryColor }}
         >
-          0.004 {data.symbol.toUpperCase()}
+          {myBalance} {data.symbol.toUpperCase()}
         </AtomindText>
 
         <AtomindText style={{ fontSize: 15, fontWeight: '800' }}>
-          $1222221
+          ${(myBalance*price).toFixed(6)}
         </AtomindText>
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
