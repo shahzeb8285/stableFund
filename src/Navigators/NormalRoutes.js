@@ -44,6 +44,7 @@ const NormalRoutes = ({ }) => {
   const isUserLoading = useSelector(state => state.user.isLoading)
   const [routes, setRoutes] = useState(<View />)
 
+ 
   useEffect(() => {
     setRoutes(renderRoutes())
   }, [user])
@@ -224,7 +225,6 @@ const NormalRoutes = ({ }) => {
             }}
           />
 
-          {/* <Stack.Screen name="Dashboard" component={DashboardScreen} /> */}
 
           <Stack.Screen
             name="VerifySecretPharases"
@@ -254,7 +254,7 @@ const NormalRoutes = ({ }) => {
       }
       return normalRoutes()
     } else {
-      return <View />
+      return <View/>
     }
   }
   return (

@@ -18,9 +18,6 @@ import BackButton from '@/Components/BackButton'
 import Header from '@/Components/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
-import { setDoc } from '@/Firebase/Firestore'
-import { setGlobalUser } from '@/Store/Slices/User/user'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { IndexPath, Menu, MenuItem } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';

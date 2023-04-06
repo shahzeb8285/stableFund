@@ -15,7 +15,6 @@ export default CopyReferralLink = () => {
   const user = useSelector(state => state.user.data)
 
   const generateLink = async (value) => {
-    console.log("generateLink")
 
     const link = await dynamicLinks().buildShortLink({
       link: `https://apexprime.page.link/?code=${value}`,
@@ -26,7 +25,6 @@ export default CopyReferralLink = () => {
       domainUriPrefix: 'https://apexprime.page.link',
     });
 
-    console.log("hhh",link)
 
     return link;
   }

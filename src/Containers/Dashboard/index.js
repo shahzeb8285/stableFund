@@ -24,9 +24,8 @@ import { useEffect } from 'react'
 import { fetchCoinDataAsync } from '@/Store/Slices/coins/coins'
 import { useDispatch, useSelector } from 'react-redux'
 import { AtomindText } from '@/Components'
-import { setGlobalUser } from '@/Store/Slices/User/user'
 import loadStakingData from '@/Config/Staking'
-import { setGlobalStaking, setStakingData } from '@/Store/Slices/Staking/staking'
+import {  setStakingData } from '@/Store/Slices/Staking/staking'
 
 // const HomeIcon = props => {
 //   return <Icon {...props} fill={props.style.tintColor} name="home-outline" />

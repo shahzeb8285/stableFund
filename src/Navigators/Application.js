@@ -25,8 +25,8 @@ const ApplicationNavigator = () => {
   const user = useSelector(state => state.user.data);
   
   const loadUserData = async(_fbUser)=>{
-
     const userFromDB = (await getDoc(`users`,_fbUser.uid)).data()
+
     let userObj = {
       uid:_fbUser.uid,
       email:_fbUser.email,
@@ -47,6 +47,7 @@ const ApplicationNavigator = () => {
 
       }
     }
+
 
     dispatch(setGlobalUser(userObj))
   } 
@@ -75,7 +76,10 @@ async function onAuthStateChanged(_user) {
       setFBUser(_user);
       // await auth().currentUser.reload()
 
-      await loadUserData(_user)
+    try{  await loadUserData(_user)
+
+    }catch(err){
+    }
 
     }
   }

@@ -30,6 +30,7 @@ import PasswordIcon from '@/Assets/SVG/PasswordIcon'
 import OnBoardBg from '@/Assets/Images/OnboardBG.png'
 import auth from '@react-native-firebase/auth';
 import { CreateNewWallet } from '@/Utils/Crypto'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const EmailLogin = ({ navigation }) => {
   const theme = useTheme()
@@ -68,6 +69,9 @@ const EmailLogin = ({ navigation }) => {
     setLoading(true)
 
     try {
+
+      await AsyncStorage.setItem("email",email)
+      await AsyncStorage.setItem("password",password)
 
       await auth().signInWithEmailAndPassword(email, password)
     } catch (error) {

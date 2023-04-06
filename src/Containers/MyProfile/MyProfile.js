@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Image, ImageBackground } from 'react-native'
+import { StyleSheet, View, Image, Alert } from 'react-native'
 import {
   Button,
   Icon,
@@ -21,11 +21,17 @@ import { useState } from 'react'
 import { setDoc } from '@/Firebase/Firestore'
 import { setGlobalUser } from '@/Store/Slices/User/user'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import DangerButton from '../../Components/AtomindButton/DangerButton'
+import auth from '@react-native-firebase/auth';
+import { logout } from '../../Store/Slices/User/user'
 
 
 const MyProfile = ({ navigation }) => {
   const user = useSelector(state => state.user.data)
   const [ isLoading,setLoading] = useState(false)
+
+   
+   const [ isDeleteLoading,setDeleteLoading] = useState(false)
   const [ name,setName] = useState("")
   const dispatch = useDispatch()
 
@@ -36,7 +42,11 @@ const MyProfile = ({ navigation }) => {
 
     const userObj = {myReferralCode,...user,name:name,refereeCode}
 
-     await setDoc("users",user.uid,userObj)
+     try{
+      const resp = await setDoc("users",user.uid,userObj)
+     }catch(err){
+      console.log("Dsdsdsdsds".err)
+     }
     dispatch(setGlobalUser(userObj))
   }
   const handleClick = async()=>{
@@ -57,6 +67,35 @@ const MyProfile = ({ navigation }) => {
     }
   }
 
+  const deleteAccountConfirmation = () =>
+  Alert.alert('Do you confirm delete account?', 'By Clicking Delete your account will be deleted and will cause you loose all the data', [
+    {
+      text: 'Cancel',
+      onPress: () => console.log('Cancel Pressed'),
+      style: 'cancel',
+    },
+    {text: 'Delete', onPress: () => handleDeleteAccount()},
+  ]);
+  const handleDeleteAccount =async()=>{
+    setDeleteLoading(true)
+
+    try{
+
+      const email = await AsyncStorage.getItem("email")
+      const password = await AsyncStorage.getItem("password")
+      const provider = auth.EmailAuthProvider;
+      const authCredential = provider.credential(email, password);
+
+      console.log({email,password})
+      await auth().currentUser.reauthenticateWithCredential(authCredential)
+      await auth().currentUser.delete()
+      dispatch(logout())
+      
+    }catch(err){
+      console.log("Fddfdfdfdfdf",err)
+    }
+    setDeleteLoading(false)
+  }
 
   return (
     <Layout style={[styles.container, { backgroundColor: '#fff' }]}>
@@ -86,6 +125,14 @@ const MyProfile = ({ navigation }) => {
           }} 
           
           isLoading={isLoading} />
+
+          
+<DangerButton text={"Delete Profile"}
+          onPress={()=>{
+            deleteAccountConfirmation()
+          }} 
+          
+          isLoading={isDeleteLoading} />
           </View>
         </ScrollView>
       </SafeAreaView>

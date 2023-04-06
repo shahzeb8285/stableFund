@@ -8,7 +8,6 @@ export const usersSlice = createSlice({
   reducers: {
    
     setGlobalUser: (state, action) => {
-
       state.data = action.payload
       state.isLoading = false
 

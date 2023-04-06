@@ -6,6 +6,7 @@ const CONFIG = [
     //     contract:"0x0C55B4c855Da7574aeFf8f22f74Bd11Ab73cf1FB",
     //     isCoin:true,
     //     stakingToken:{
+        
     //         address:"0x0000000000000000000000000000000000000000",
     //         decimals:18,
     //         name:"BNB",
