@@ -595,7 +595,7 @@ const StakeFragment = () => {
                     fontWeight: "800",
                     textAlign: 'center',
                   }}>
-                    1.5% Daily return
+                    1% Daily return
                   </AtomindText>
 
 

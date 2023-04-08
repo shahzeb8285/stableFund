@@ -397,7 +397,7 @@ const DashboardScreen = props => {
           <HomeFragment navigation={props.navigation} />
           <WalletFragment navigation={props.navigation}/>
           <StakeFragment />
-          <ExchangeFragment />
+          {/* <ExchangeFragment /> */}
           <ReportFragment />
         </ViewPager>
       </View>
