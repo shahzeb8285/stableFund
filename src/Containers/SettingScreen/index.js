@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Image, ImageBackground } from 'react-native'
+import { StyleSheet, View, Image, ImageBackground,Alert } from 'react-native'
 import {
   Button,
   Icon,
@@ -9,6 +9,7 @@ import {
   useTheme,
 } from '@ui-kitten/components'
 import Toast from 'react-native-toast-message'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { AtomindButton, AtomindText, HyperLink, } from '@/Components'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -18,6 +19,7 @@ import BackButton from '@/Components/BackButton'
 import Header from '@/Components/Header'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState } from 'react'
+import { logout } from '../../Store/Slices/User/user'
 
 import { IndexPath, Menu, MenuItem } from '@ui-kitten/components';
 import auth from '@react-native-firebase/auth';
@@ -26,6 +28,7 @@ import { LoadingModal } from '@/Components/LoadingModal'
 export const MenuSimpleUsageShowcase = ({ navigator }) => {
   const user = useSelector(state => state.user.data)
   const [isLoadingModalVisible, setLoadingModalVisible] = useState(false)
+  const dispatch = useDispatch()
 
   const handleLogout = async () => {
     setLoadingModalVisible(true)
@@ -37,13 +40,45 @@ export const MenuSimpleUsageShowcase = ({ navigator }) => {
 
   }
 
+  const deleteAccountConfirmation = () =>
+    Alert.alert('Do you confirm delete account?', 'By Clicking Delete your account will be deleted and will cause you loose all the data', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {text: 'Delete', onPress: async() =>await handleDeleteAccount()},
+    ]);
+
+  const handleDeleteAccount =async()=>{
+    // setDeleteLoading(true)
+    console.log("handleDeleteAccount")
+    try{
+
+      const email = await AsyncStorage.getItem("email")
+      const password = await AsyncStorage.getItem("password")
+      const provider = auth.EmailAuthProvider;
+      const authCredential = provider.credential(email, password);
+
+      await auth().currentUser.reauthenticateWithCredential(authCredential)
+      await auth().currentUser.delete()
+      dispatch(logout())
+      
+    }catch(err){
+      console.log("Fddfdfdfdfdf",err)
+    }
+    // setDeleteLoading(false)
+  }
   const handleOnClick = async (index) => {
     if (index == 0) {
       navigator.navigate("ShowSecretPhrasesScreen", {
         wallet: JSON.stringify(user.wallet),
         onlyView: true
       })
-    } else if (index == 1) {
+    }else  if (index == 1) {
+      deleteAccountConfirmation()
+     
+    } else if (index == 2) {
       await handleLogout()
     }
   }
@@ -60,6 +95,8 @@ export const MenuSimpleUsageShowcase = ({ navigator }) => {
         handleOnClick(index.row)
       }}>
       <MenuItem title='View Seed Phrase' />
+      <MenuItem title='Delete Account'  />
+
       <MenuItem title='Logout' />
 
     </Menu>

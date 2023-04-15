@@ -74,9 +74,10 @@ const MyProfile = ({ navigation }) => {
       onPress: () => console.log('Cancel Pressed'),
       style: 'cancel',
     },
-    {text: 'Delete', onPress: () => handleDeleteAccount()},
+    {text: 'Delete', onPress: async() =>await handleDeleteAccount()},
   ]);
   const handleDeleteAccount =async()=>{
+    console.log("handleDeleteAccount")
     setDeleteLoading(true)
 
     try{
@@ -86,7 +87,6 @@ const MyProfile = ({ navigation }) => {
       const provider = auth.EmailAuthProvider;
       const authCredential = provider.credential(email, password);
 
-      console.log({email,password})
       await auth().currentUser.reauthenticateWithCredential(authCredential)
       await auth().currentUser.delete()
       dispatch(logout())
@@ -127,12 +127,12 @@ const MyProfile = ({ navigation }) => {
           isLoading={isLoading} />
 
           
-<DangerButton text={"Delete Profile"}
+{/* <DangerButton text={"Delete Profile"}
           onPress={()=>{
             deleteAccountConfirmation()
           }} 
           
-          isLoading={isDeleteLoading} />
+          isLoading={isDeleteLoading} /> */}
           </View>
         </ScrollView>
       </SafeAreaView>

@@ -129,14 +129,14 @@ def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitect
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion rootProject.ext.compileSdkVersion     
 
     defaultConfig {
         applicationId "com.apexprime"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "3.0"
+        versionCode 4
+        versionName "4.0"
         configurations.all {
             resolutionStrategy { force 'androidx.core:core:1.6.0' }
         }

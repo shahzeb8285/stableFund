@@ -35,7 +35,7 @@ const CONFIG = [
     {
         id:1,
         chainID:56,
-        contract:"0xc029DC0b3b40CD128Ed86505353AF74Ecb8Ddd1f",
+        contract:"0xA561F153A32c70Fc9613317719e7B71a7F1DC70e",
         isCoin:false,
         stakingToken:{
             address:"0xe9e7cea3dedca5984780bafc599bd69add087d56",
@@ -50,7 +50,7 @@ const CONFIG = [
     {
         id:2,
         chainID:56,
-        contract:"0x420206ad20526578EC9a4A6B3B8Fb25160470E49",
+        contract:"0x067107304A6511C0A778Ad7B6f2785aa24bBDBd2",
         isCoin:false,
         stakingToken:{
             address:"0x55d398326f99059ff775485246999027b3197955",
@@ -67,7 +67,7 @@ const CONFIG = [
     {
         id:3,
         chainID:137,
-        contract:"0x420206ad20526578EC9a4A6B3B8Fb25160470E49",
+        contract:"0xA561F153A32c70Fc9613317719e7B71a7F1DC70e",
         isCoin:false,
         stakingToken:{
             address:"0xc029dc0b3b40cd128ed86505353af74ecb8ddd1f",
@@ -84,7 +84,7 @@ const CONFIG = [
     {
         id:4,
         chainID:1,
-        contract:"0xd7b33816e4741A7aE465247CB2c8a4B45b68787D",
+        contract:"0x420206ad20526578ec9a4a6b3b8fb25160470e49",
         isCoin:false,
         stakingToken:{
             address:"0xdac17f958d2ee523a2206206994597c13d831ec7",
