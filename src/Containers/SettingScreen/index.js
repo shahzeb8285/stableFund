@@ -59,7 +59,6 @@ export const MenuSimpleUsageShowcase = ({ navigator }) => {
       const password = await AsyncStorage.getItem("password")
       const provider = auth.EmailAuthProvider;
       const authCredential = provider.credential(email, password);
-
       await auth().currentUser.reauthenticateWithCredential(authCredential)
       await auth().currentUser.delete()
       dispatch(logout())

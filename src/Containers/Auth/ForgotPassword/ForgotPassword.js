@@ -1,24 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, Image, ImageBackground } from 'react-native'
 import {
-  Button,
   Icon,
   IconRegistry,
   Layout,
   Input,
   useTheme,
 } from '@ui-kitten/components'
-import { AtomindText, HyperLink } from '@/Components'
+import { AtomindText, AtomindButton } from '@/Components'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
 import BackButton from '@/Components/BackButton'
 import Header from '@/Components/Header'
+import auth from '@react-native-firebase/auth';
 
 
 const ForgotPassword = ({ navigation }) => {
   const theme = useTheme()
+  const [email,setEmail] = useState("")
+  const [isLoading,setLoading] = useState(false)
+ 
+ 
+  const handleResetLink = async()=>{
+    setLoading(true)
+    try{
+      await auth().sendPasswordResetEmail(email)
+      alert("Reset Link Sent! Check Your Email");
+    }catch(err){
+      console.log("dfsdsdsds",err)
+      alert(err);
 
+    }
+    setLoading(false)
+
+  }
   return (
     <Layout style={[styles.container, { backgroundColor: '#fff' }]}>
       <SafeAreaView style={{ width: '100%', height: '100%' }}>
@@ -31,6 +47,10 @@ const ForgotPassword = ({ navigation }) => {
           />
           <View>
             <Input
+            onChangeText={(e)=>{
+              console.log("dssdsd",e)
+              setEmail(e)
+            }}
               style={styles.input}
               size="large"
               textContentType="emailAddress"
@@ -39,15 +59,19 @@ const ForgotPassword = ({ navigation }) => {
               // onChangeText={nextValue => setValue(nextValue)}
             />
 
-            <Button
-              
+            <AtomindButton
+              onPress={()=>{
+                handleResetLink()
+              }}
+              isLoading={isLoading}
               style={[
                 styles.loginButton,
                 { backgroundColor: theme['color-primary-default'] },
               ]}
+              text={"Send Reset Link"}
             >
-              Send Reset Link
-            </Button>
+              
+            </AtomindButton>
           </View>
         </ScrollView>
       </SafeAreaView>
