@@ -11,4 +11,4 @@ import { name as appName } from './app.json'
 
 global.Buffer = require('buffer').Buffer;
 
-AppRegistry.registerComponent(appName, () => App)
+AppRegistry.registerComponent("StableF", () => App)
