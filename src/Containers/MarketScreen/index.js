@@ -286,15 +286,22 @@ const MarketScreen = ({ navigation, route }) => {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <View style={{ flex: 1, marginLeft: 5 }}>
-            <AtomindButton text="Buy" onPress={() => {
+            {/* <AtomindButton text="Buy" onPress={() => {
               navigation.navigate("Buy",{data})
-            }} />
+            }} /> */}
+            <AtomindButton text="Send" onPress={() => {
+              navigation.navigate('SendCrypto')
+              }} />
           </View>
 
           <View style={{ flex: 1, marginLeft: 5 }}>
-            <AtomindButton text="Exchange" onPress={() => {
+            {/* <AtomindButton text="Exchange" onPress={() => {
               navigation.navigate("Exchange",{data})
-            }}  />
+            }}  /> */}
+            <AtomindButton text="Receive" onPress={() => {
+              navigation.navigate('ReceiveCrypto')
+            }}
+            />
           </View>
         </View>
       </View>
